@@ -1,15 +1,14 @@
 
 import pygame
 
-#anchor the pygame screen so you see it in codio.
-#Click on the arrow in the upper left corner to display in a new browser tab.
+#Not sure what this does outside of codio, anchored the screen?
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
 
 #start the pygame module 
 pygame.init() 
 
-#variables for screen size: 
+#window size: 
 screen_width=690 
 screen_height=290 
 
@@ -19,9 +18,9 @@ screen_height=290
 #create a screen with dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 
-#set the screen caption 
+#Window Name / Color
 pygame.display.set_caption("Game Window")  
-screen.fill((0, 0, 250))
+screen.fill((0, 100, 250))
 
  
 
@@ -32,7 +31,7 @@ clock = pygame.time.Clock()
 keep_playing=True 
 
 #Game Loop - needed to keep updating and redrawing the screen 
-while keep_playing==True: 
+while keep_playing: 
 
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
