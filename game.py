@@ -10,13 +10,14 @@ pygame.init()
 
 #window size: 
 screen_width=1000
-screen_height=700 
+screen_height=1000
 
 #variable initializers 
 #testing varis, change later
-COLOR=(230,230,250)
-WIDTH=(1)
-HEIGHT=(2)
+COLOR=(0,0,255)
+PURPLE=(230,255,250)
+WIDTH=500
+HEIGHT=400
 
 #passing width / height, and color. (May or may not need the color later?)
 class Spaceship(pygame.sprite.Sprite):
@@ -25,7 +26,9 @@ class Spaceship(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
     self.image.fill(color) #change this to spaceship img instead later
-    #creates rectangle for the ships surface
+    
+    #creates rectangle for the ships surface-Rect is saving position on the screen 
+    pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
 
 #screen & dimensions 
@@ -33,8 +36,16 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
-screen.fill((0, 100, 250))
+screen.fill((0, 0, 100))
 
+#Making the objects 
+sprites_list=pygame.sprite.Group() #holds sprites in a list to pull from later
+#idk if object_ is just a variable name or required, ill mess with it more if this works
+#Making the OBJ (ship) and deciding its position on screen (rect.x/y)
+object_=Spaceship(PURPLE,50,60)
+object_.rect.x=100
+object_.rect.y=200
+sprites_list.add(object_) #adds to the big beautiful sprite list!! (only thing in there lol)
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
@@ -50,13 +61,14 @@ while keep_playing:
     if event.type == pygame.QUIT: 
       keep_playing = False
   
-  
-
   #all items drawn to the screen go here
-  # > Draw up spaceship onto screen
+  sprites_list.update()
+  sprites_list.draw(screen)
+  pygame.display.flip() #this updates the WHOLE screen. idk why its named flip <_< 
+   
 
   #Updates & Framerate 
-  pygame.display.update() 
+  #pygame.display.update() commenting this out while I have the flipster 
   clock.tick(60) 
 
 #quits the pygame module 
