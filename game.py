@@ -9,46 +9,54 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
 pygame.init() 
 
 #window size: 
-screen_width=690 
-screen_height=290 
+screen_width=1000
+screen_height=700 
 
-#other variable initializers (fonts, text, images, etc)
+#variable initializers 
+#testing varis, change later
+COLOR=(230,230,250)
+WIDTH=(1)
+HEIGHT=(2)
 
+#passing width / height, and color. (May or may not need the color later?)
+class Spaceship(pygame.sprite.Sprite):
+  def __init__(self,color,width,height):
+    #call parent class, Sprite, to access it
+    pygame.sprite.Sprite.__init__(self)
+    self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
+    self.image.fill(color) #change this to spaceship img instead later
+    #creates rectangle for the ships surface
+    self.rect=self.image.get_rect() 
 
-#create a screen with dimensions 
+#screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
 screen.fill((0, 100, 250))
 
- 
 
-#the clock will be used to regulate the frame rate 
+#Frame rate regulation 
 clock = pygame.time.Clock() 
 
-#variable to control the game loop 
+#Game loop vari
 keep_playing=True 
-
-#Game Loop - needed to keep updating and redrawing the screen 
+#Game Loop - updating/redrawing
 while keep_playing: 
 
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
-    #will stop the game loop if escape is pressed 
+    #If ESC, quit
     if event.type == pygame.QUIT: 
       keep_playing = False
   
   
 
   #all items drawn to the screen go here
-  
-  
-        
-  #This function call updates the screen 
-  pygame.display.update() 
+  # > Draw up spaceship onto screen
 
-  #sets the frame rate
+  #Updates & Framerate 
+  pygame.display.update() 
   clock.tick(60) 
 
 #quits the pygame module 
