@@ -1,0 +1,8 @@
+NOTES OF STUFF I PUT IN ALONG THE WAY THAT I LEARNED!!
+
+pygame.sprite.Sprite:
+> Described as a "base class for game objects" inside pygame
+    -Allows for sprite groups to be interacted with pretty easily, drawing all of them at once
+
+>Why .sprite.Sprite? 
+    -not FULLY sure, *Sprite* seems to be an already built in class in pygame (methinks)
