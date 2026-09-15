@@ -6,3 +6,8 @@ pygame.sprite.Sprite:
 
 >Why .sprite.Sprite? 
     -not FULLY sure, *Sprite* seems to be an already built in class in pygame (methinks)
+
+self.image:
+> Referring to the objects self, supposedly the image that will be displayed on screen
+    >Closely related to pygame.surface (in this case I think)
+        -think of pygame.surface like a blank piece of paper, you put the IMAGE on the surface. 
