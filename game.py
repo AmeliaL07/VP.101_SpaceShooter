@@ -78,8 +78,7 @@ while keep_playing:
     if event.type == pygame.QUIT: 
       keep_playing = False
   
-  
-  screen.fill((255,255,255))
+  screen.fill((255,255,255)) #recolors the screen 
   sprites_list.update()
   sprites_list.draw(screen)
    
