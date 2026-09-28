@@ -45,11 +45,11 @@ class Bullet(pygame.sprite.Sprite):
 
 def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
-    keyinp=pygame.key.get_pressed() #access the keyname stuff yeah ea 
+    keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
 
-    if keyinp[pygame.K_LEFT]:
+    if keyinpt[pygame.K_LEFT]:
       object_.rect.x-=1 
-    elif keyinp[pygame.K_RIGHT]:
+    elif keyinpt[pygame.K_RIGHT]:
       object_.rect.x+=1 
 
     """elif keyinp[pygame.K_UP]:
@@ -57,11 +57,29 @@ def movement():
     elif keyinp[pygame.K_DOWN]:
       object_.rect.y+=1"""
 
-def drawing():
+def draw_player():
   """Visual parts of the game"""
   #all items drawn to the screen are handled here. (GRABS EVERY SPRITE IN THIS LIST)
-  sprites_list.update() 
-  sprites_list.draw(screen) #draws all sprites (in sprite list) onto the screen surface
+  ships_sprite.update() 
+  ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
+
+def create_bullet():
+  """Create a bullet object"""
+  keyinpt=pygame.key.get_pressed()
+  if keyinpt[pygame.K_SPACE]:
+    #MAKE A BULLET MAKE ONE JUSTMAEONE IM TWEAKING
+    bullet_=Bullet(BLACK,10,10)
+    bullet_.rect.x=510
+    bullet_.rect.y=750
+    bullets_sprite.add(bullet_) #bullet into bullet group
+    print("bullet made")
+    #bullets_sprite.add(bullet_) <-- no 
+
+
+def update_bullet():
+  """put bullet on screen!!! please!!"""
+  bullets_sprite.update()
+  bullets_sprite.draw(screen)
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -71,19 +89,20 @@ pygame.display.set_caption("Game Window")
 screen.fill(WHITE)
 
 #Making the objects 
-sprites_list=pygame.sprite.Group() #holds sprites in a list to pull from later
+ships_sprite=pygame.sprite.Group() #ship group -rlly pointless cause theres only 1 ship.
+bullets_sprite=pygame.sprite.Group() #bullets group/list 
+
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
 object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT)
-object_.rect.x=500 #idk if object_ is just a variable name or required..
+object_.rect.x=500 
 object_.rect.y=800 
-sprites_list.add(object_) #adds spaceship into sprites_list 
+ships_sprite.add(object_) #adds spaceship into ships_sprite 
 
-#bullets
-bullut_=Bullet(BLACK,10,10)
-bullut_.rect.x=510
-bullut_.rect.y=750
-sprites_list.add(bullut_) #RLLY UNSURE ABOUT THIS PART
-
+"""#bullets base - might move later? 
+bullet_=Bullet(BLACK,10,10)
+bullet_.rect.x=510
+bullet_.rect.y=750
+bullets_sprite.add(bullet_) #bullet into bullet group"""
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
@@ -92,7 +111,6 @@ clock = pygame.time.Clock()
 keep_playing=True 
 #Game Loop - updating/redrawing
 while keep_playing: 
-
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
     #If ESC, quit
@@ -101,10 +119,12 @@ while keep_playing:
   
   #screen drawing
   screen.fill((255,255,255)) #recolors the screen 
-  drawing() #this draws EVERYTHING instead of js the player, maybe change that later?
-    
+  draw_player()
+  create_bullet() 
+
   #Updates & Framerate 
-  movement() 
+  movement()
+  update_bullet()
   pygame.display.update()
   clock.tick(100) 
 
