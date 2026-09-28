@@ -1,4 +1,5 @@
 NOTES OF STUFF I PUT IN ALONG THE WAY THAT I LEARNED!!
+-Theres nothing rlly IMPORTANT in here, this is more for me.
 
 pygame.sprite.Sprite:
 > Described as a "base class for game objects" inside pygame
@@ -11,3 +12,8 @@ self.image:
 > Referring to the objects self, supposedly the image that will be displayed on screen
     >Closely related to pygame.surface (in this case I think)
         -think of pygame.surface like a blank piece of paper, you put the IMAGE on the surface. 
+
+pygame.image.load("objexample"):
+ > Automatically creates a surface object (I think?) based on what was said
+    >(Slightly unrelated) - The screen itself is one big Surface obj, the more you know! 
+

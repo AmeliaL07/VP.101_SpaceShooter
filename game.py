@@ -9,10 +9,10 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
 pygame.init() 
 
 #window size: 
-screen_width=1000
-screen_height=1000
+screen_width=800
+screen_height=900
 
-#variable initializers 
+#variable initializers / constants 
 #testing varis, change later
 COLOR=(0,0,255)
 PURPLE=(127,0,255)
@@ -39,14 +39,17 @@ def movement():
       object_.rect.x-=1 
     elif keyinp[pygame.K_RIGHT]:
       object_.rect.x+=1 
-    elif keyinp[pygame.K_UP]:
+
+    """elif keyinp[pygame.K_UP]:
       object_.rect.y-=1 
     elif keyinp[pygame.K_DOWN]:
-      object_.rect.y+=1 
+      object_.rect.y+=1"""
 
-
-  #all items drawn to the screen go here - stick this in a function
-
+def drawing():
+  """Visual parts of the game"""
+  #all items drawn to the screen are handled here. (GRABS EVERY SPRITE IN THIS LIST)
+  sprites_list.update() 
+  sprites_list.draw(screen) #draws all sprites (in sprite list) onto the screen surface
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -60,8 +63,8 @@ sprites_list=pygame.sprite.Group() #holds sprites in a list to pull from later
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
 object_=Spaceship(PURPLE,70,60)
-object_.rect.x=100 #idk if object_ is just a variable name or required, ill mess with it more if this works
-object_.rect.y=100 
+object_.rect.x=500 #idk if object_ is just a variable name or required, ill mess with it more if this works
+object_.rect.y=800 
 sprites_list.add(object_) #adds to the big beautiful sprite list!! (only thing in there lol)
 
 #Frame rate regulation 
@@ -78,16 +81,14 @@ while keep_playing:
     if event.type == pygame.QUIT: 
       keep_playing = False
   
+  #screen drawing
   screen.fill((255,255,255)) #recolors the screen 
-  sprites_list.update()
-  sprites_list.draw(screen)
-   
-   
-
+  drawing() #this draws EVERYTHING instead of js the player, maybe change that later?
+    
   #Updates & Framerate 
   movement() 
   pygame.display.update()
-  clock.tick(60) 
+  clock.tick(100) 
 
 #quits the pygame module 
 pygame.quit() 

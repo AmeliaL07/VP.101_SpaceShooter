@@ -1,0 +1,14 @@
+Stuff that might be an issue LATER, but aren't ATM. 
+-my memory is bad tho, so...
+
+SPRITES:
+Bit worried about the sprite list later on, especially if the bullets are gonna all be in that list? 
+just a small little thought for u (you being amelia layne magorian thank you)
+--
+ALSO ALSO: The player spaceship is called "object_" in all the code I THINK??
+I never figured out if object_ was an essential syntax thing or just like a variable name for it
+POINT BEING: When you add other objs to the sprite list later (aka the bullets) fiddle with the naming maybe?
+
+MOVEMENT:
+The player spaceship isnt bound to the screen, like it can go off it. 
+MIGHT be bad but atm it doesn't stop the program. Shrug. 
