@@ -19,3 +19,5 @@ RUNNING IDEAS -
         -Seems a bit clunky, would that even work theoretically?
         -Might need GLOBAL variable stuff...
         -I'm probably overcomplicating this tbh but I have no other ideas (yet)
+
+may or may not have to backtrack and do the lists normally if I cant figure out .Sprite groups/lists O_o'

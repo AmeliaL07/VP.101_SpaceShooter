@@ -67,17 +67,18 @@ def create_bullet():
   """Create a bullet object"""
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
-    #MAKE A BULLET MAKE ONE JUSTMAEONE IM TWEAKING
+    #makes the bullet, spawns above player starter point RN
     bullet_=Bullet(BLACK,10,10)
     bullet_.rect.x=510
     bullet_.rect.y=750
     bullets_sprite.add(bullet_) #bullet into bullet group
     print("bullet made")
-    #bullets_sprite.add(bullet_) <-- no 
-
-
+   
 def update_bullet():
-  """put bullet on screen!!! please!!"""
+  """Draws the bullet/updates X/Y position"""
+  #Change X position of the bullet relative to the player
+  #Maybe just have Y 
+  
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
