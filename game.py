@@ -79,6 +79,11 @@ object_.rect.y=800
 sprites_list.add(object_) #adds spaceship into sprites_list 
 
 #bullets
+bullut_=Bullet(BLACK,10,10)
+bullut_.rect.x=510
+bullut_.rect.y=750
+sprites_list.add(bullut_) #RLLY UNSURE ABOUT THIS PART
+
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
