@@ -1,14 +1,21 @@
 Stuff that might be an issue LATER, but aren't ATM. 
--my memory is bad tho, so...
+Basically stuff I need to do that I need to look into (eventually)
 
 SPRITES:
 Bit worried about the sprite list later on, especially if the bullets are gonna all be in that list? 
-just a small little thought for u (you being amelia layne magorian thank you)
---
-ALSO ALSO: The player spaceship is called "object_" in all the code I THINK??
-I never figured out if object_ was an essential syntax thing or just like a variable name for it
-POINT BEING: When you add other objs to the sprite list later (aka the bullets) fiddle with the naming maybe?
+just a small little thought.
+
+ALSO ALSO: The player spaceship is called "object_" in all the code.
+- I figured out the "syntax concern" thing, pretty sure you just need the underscore (aka name_)
 
 MOVEMENT:
 The player spaceship isnt bound to the screen, like it can go off it. 
 MIGHT be bad but atm it doesn't stop the program. Shrug. 
+
+BULLETS: 
+Linking the bullets onto the spaceship object (how??)
+RUNNING IDEAS -
+    Update the bullet position INSIDE the player movement variable
+        -Seems a bit clunky, would that even work theoretically?
+        -Might need GLOBAL variable stuff...
+        -I'm probably overcomplicating this tbh but I have no other ideas (yet)
