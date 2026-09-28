@@ -14,12 +14,14 @@ screen_height=900
 
 #variable initializers / constants 
 #testing varis, change later
-COLOR=(0,0,255)
+WHITE=(255,255,255)
+BLACK=(0,0,0)
 PURPLE=(127,0,255)
-WIDTH=500
-HEIGHT=400
+P_WIDTH=30
+P_HEIGHT=60
 
-#passing width / height, and color. (May or may not need the color later?)
+
+#passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
   def __init__(self,color,width,height):
     #call parent class, Sprite, to access it
@@ -27,9 +29,19 @@ class Spaceship(pygame.sprite.Sprite):
     self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
     self.image.fill(color) #change this to spaceship img instead later
     
-    #creates rectangle for the ships surface-Rect is saving position on the screen 
+    #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
+
+class Bullet(pygame.sprite.Sprite):
+  def __init__(self,color,width,height):
+    pygame.sprite.Sprite.__init__(self)
+    self.image=pygame.Surface([width,height]) #w/h of bullet
+    self.image.fill(color) #clr of bullet
+
+    #kinda unsure about these & what they actually DO? VV
+    pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
+    self.rect=self.image.get_rect()
 
 def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
@@ -56,16 +68,17 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
-screen.fill((255, 255, 255))
+screen.fill(WHITE)
 
 #Making the objects 
 sprites_list=pygame.sprite.Group() #holds sprites in a list to pull from later
-
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
-object_=Spaceship(PURPLE,70,60)
-object_.rect.x=500 #idk if object_ is just a variable name or required, ill mess with it more if this works
+object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT)
+object_.rect.x=500 #idk if object_ is just a variable name or required..
 object_.rect.y=800 
-sprites_list.add(object_) #adds to the big beautiful sprite list!! (only thing in there lol)
+sprites_list.add(object_) #adds spaceship into sprites_list 
+
+#bullets
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
