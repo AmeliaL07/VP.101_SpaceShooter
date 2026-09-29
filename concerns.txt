@@ -20,4 +20,4 @@ RUNNING IDEAS -
         -Might need GLOBAL variable stuff...
         -I'm probably overcomplicating this tbh but I have no other ideas (yet)
 
-may or may not have to backtrack and do the lists normally if I cant figure out .Sprite groups/lists O_o'
+Gentle reminder that the sprite.groups are STILL lists, could probably use them normally as such!

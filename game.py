@@ -68,18 +68,21 @@ def create_bullet():
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
     bullet_=Bullet(BLACK,10,10)
-    bullet_.rect.x=object_.rect.x
+    bullet_.rect.x=object_.rect.x #puts bullet at current player position
     bullet_.rect.y=750
     bullets_sprite.add(bullet_) #add to group
     #checking for bullet creation
     print(f"bullet made {len(bullets_sprite)}") 
     
 def update_bullet():
-  """Draws the bullet/updates X/Y position"""
-  #Change X position of the bullet relative to the player
+  """Draws the bullet/updates Y position"""
+  #Moves the bullets up
   for bullet in bullets_sprite:
     bullet.rect.y-=1
-  #Maybe just have Y 
+    if(bullet.rect.y<=0):
+      bullets_sprite.remove(bullet) 
+      print(f"Bullet removed")
+    
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
@@ -115,12 +118,11 @@ while keep_playing:
 
   #screen drawing
   screen.fill((255,255,255)) #recolors the screen 
-  
   draw_player()
   create_bullet()
-
-  #Updates & Framerate 
+  
   movement()
+  #Updates & Framerate 
   update_bullet()
   pygame.display.update()
   clock.tick(100) 

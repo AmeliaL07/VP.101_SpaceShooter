@@ -17,3 +17,7 @@ pygame.image.load("objexample"):
  > Automatically creates a surface object (I think?) based on what was said
     >(Slightly unrelated) - The screen itself is one big Surface obj, the more you know! 
 
+
+REUSE IMAGE FOR EAC DUPLICATION, CHANGE THE RECT thing
+reference the one variable that you have (ex bullet)
+>change rect of bullet1 or b2 or b3 blah blah (I think thats what was said)
