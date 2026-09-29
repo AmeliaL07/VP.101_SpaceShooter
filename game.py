@@ -64,21 +64,23 @@ def draw_player():
   ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
 
 def create_bullet():
-  """Create a bullet object"""
+  """Create a bullet object, default spawn above player."""
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
-    #makes the bullet, spawns above player starter point RN
     bullet_=Bullet(BLACK,10,10)
     bullet_.rect.x=510
     bullet_.rect.y=750
-    bullets_sprite.add(bullet_) #bullet into bullet group
-    print("bullet made")
-   
+    bullets_sprite.add(bullet_) #add to group
+    #checking for bullet creation
+    print(f"bullet made {len(bullets_sprite)}") 
+    
 def update_bullet():
   """Draws the bullet/updates X/Y position"""
   #Change X position of the bullet relative to the player
+  for bullet in bullets_sprite:
+    bullet.rect.x=object_.rect.x-1 
+    bullet.rect.y-=1
   #Maybe just have Y 
-  
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
@@ -99,12 +101,6 @@ object_.rect.x=500
 object_.rect.y=800 
 ships_sprite.add(object_) #adds spaceship into ships_sprite 
 
-"""#bullets base - might move later? 
-bullet_=Bullet(BLACK,10,10)
-bullet_.rect.x=510
-bullet_.rect.y=750
-bullets_sprite.add(bullet_) #bullet into bullet group"""
-
 #Frame rate regulation 
 clock = pygame.time.Clock() 
 
@@ -117,11 +113,12 @@ while keep_playing:
     #If ESC, quit
     if event.type == pygame.QUIT: 
       keep_playing = False
-  
+
   #screen drawing
   screen.fill((255,255,255)) #recolors the screen 
+  
   draw_player()
-  create_bullet() 
+  create_bullet()
 
   #Updates & Framerate 
   movement()
