@@ -21,3 +21,4 @@ RUNNING IDEAS -
         -I'm probably overcomplicating this tbh but I have no other ideas (yet)
 
 Gentle reminder that the sprite.groups are STILL lists, could probably use them normally as such!
+-Add a cooldown for the shooting at some point im just like blanking on how rn

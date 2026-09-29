@@ -13,13 +13,12 @@ screen_width=800
 screen_height=900
 
 #variable initializers / constants 
-#testing varis, change later
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 PURPLE=(127,0,255)
 P_WIDTH=30
 P_HEIGHT=60
-
+cooldown_t=0 
 
 #passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
@@ -46,7 +45,6 @@ class Bullet(pygame.sprite.Sprite):
 def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
-
     if keyinpt[pygame.K_LEFT]:
       object_.rect.x-=1 
     elif keyinpt[pygame.K_RIGHT]:
@@ -65,6 +63,7 @@ def draw_player():
 
 def create_bullet():
   """Create a bullet object, default spawn above player."""
+  #global cooldown_t
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
     bullet_=Bullet(BLACK,10,10)
@@ -73,7 +72,7 @@ def create_bullet():
     bullets_sprite.add(bullet_) #add to group
     #checking for bullet creation
     print(f"bullet made {len(bullets_sprite)}") 
-    
+
 def update_bullet():
   """Draws the bullet/updates Y position"""
   #Moves the bullets up
@@ -109,6 +108,7 @@ clock = pygame.time.Clock()
 #Game loop vari
 keep_playing=True 
 #Game Loop - updating/redrawing
+
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
@@ -119,8 +119,6 @@ while keep_playing:
   #screen drawing
   screen.fill((255,255,255)) #recolors the screen 
   draw_player()
-  create_bullet()
-  
   movement()
   #Updates & Framerate 
   update_bullet()
