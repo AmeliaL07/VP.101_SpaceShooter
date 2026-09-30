@@ -19,6 +19,9 @@ RUNNING IDEAS -
         -Seems a bit clunky, would that even work theoretically?
         -Might need GLOBAL variable stuff...
         -I'm probably overcomplicating this tbh but I have no other ideas (yet)
+[I resolved this already ^^]
 
 Gentle reminder that the sprite.groups are STILL lists, could probably use them normally as such!
 -Add a cooldown for the shooting at some point im just like blanking on how rn
+
+-Not important but the bullets cap at 750 I think? kinda cool

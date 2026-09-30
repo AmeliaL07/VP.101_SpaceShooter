@@ -1,6 +1,6 @@
 
 import pygame
-
+import random 
 #Not sure what this does outside of codio, anchored the screen?
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
@@ -16,6 +16,7 @@ screen_height=900
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 PURPLE=(127,0,255)
+APPLECOLOR=(66,124,99)
 P_WIDTH=30
 P_HEIGHT=60
 cooldown_t=0 
@@ -42,6 +43,15 @@ class Bullet(pygame.sprite.Sprite):
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
     self.rect=self.image.get_rect()
 
+class Enemy(pygame.sprite.Sprite):
+  def __init__(self,color,width,height):
+    pygame.sprite.Sprite.__init__(self)
+    self.image=pygame.Surface([width,height])
+    self.image.fill(color)
+
+    pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
+    self.rect=self.image.get_rect()
+
 def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
@@ -49,11 +59,6 @@ def movement():
       object_.rect.x-=1 
     elif keyinpt[pygame.K_RIGHT]:
       object_.rect.x+=1 
-
-    """elif keyinp[pygame.K_UP]:
-      object_.rect.y-=1 
-    elif keyinp[pygame.K_DOWN]:
-      object_.rect.y+=1"""
 
 def draw_player():
   """Visual parts of the game"""
@@ -66,12 +71,12 @@ def create_bullet():
   #global cooldown_t
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
-    bullet_=Bullet(BLACK,10,10)
+    bullet_=Bullet(WHITE,10,10)
     bullet_.rect.x=object_.rect.x #puts bullet at current player position
     bullet_.rect.y=750
     bullets_sprite.add(bullet_) #add to group
     #checking for bullet creation
-    print(f"bullet made {len(bullets_sprite)}") 
+    print(f"bullet # made: {len(bullets_sprite)}") 
 
 def update_bullet():
   """Draws the bullet/updates Y position"""
@@ -81,20 +86,36 @@ def update_bullet():
     if(bullet.rect.y<=0):
       bullets_sprite.remove(bullet) 
       print(f"Bullet removed")
-    
   bullets_sprite.update()
   bullets_sprite.draw(screen)
+
+#these are REALLY broken right now, spawns an inf amount of enemies
+def create_enemy():
+  """Create enemy object (eek!)"""
+  enemy_=Enemy(APPLECOLOR,7,3)
+  enemy_.rect.x=object_.rect.x #change to be randomized later
+  enemy_.rect.y=5
+  enemies_sprite.add(enemy_)
+  print(f"enemy # made: {len(enemies_sprite)}")
+
+#placeholder update stuff yup yup
+def update_enemy():
+  for enemy in enemies_sprite:
+    enemy.rect.y+=1
+  enemies_sprite.update()
+  enemies_sprite.draw(screen)
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
-screen.fill(WHITE)
+screen.fill(BLACK)
 
-#Making the objects 
+#Making the objects lists 
 ships_sprite=pygame.sprite.Group() #ship group -rlly pointless cause theres only 1 ship.
-bullets_sprite=pygame.sprite.Group() #bullets group/list 
+bullets_sprite=pygame.sprite.Group() #bullets group/list
+enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
 object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT)
@@ -108,7 +129,6 @@ clock = pygame.time.Clock()
 #Game loop vari
 keep_playing=True 
 #Game Loop - updating/redrawing
-
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
@@ -117,11 +137,15 @@ while keep_playing:
       keep_playing = False
 
   #screen drawing
-  screen.fill((255,255,255)) #recolors the screen 
+  screen.fill((BLACK)) #recolors the screen 
   draw_player()
   movement()
+  create_bullet()
+  create_enemy()
+
   #Updates & Framerate 
   update_bullet()
+  update_enemy()
   pygame.display.update()
   clock.tick(100) 
 
