@@ -39,7 +39,6 @@ class Bullet(pygame.sprite.Sprite):
     #kinda unsure about these & what they actually DO? VV
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
     self.rect=self.image.get_rect()
-    
     #cooldown junk - CLASS FUNCTION PROPERTY
     self.cooldown_c=0 #counter, will determine when to shoot (in range)
 
@@ -49,6 +48,12 @@ class Bullet(pygame.sprite.Sprite):
       self.cooldown_c=0 #reset it
     elif self.cooldown_c>0: 
       self.cooldown_c+=1 #keep going
+
+  def fire_bullet(self):
+    keyinpt=pygame.key.get_pressed()
+    if keyinpt[pygame.K_SPACE] and self.cooldown_c==0:
+      create_bullet()
+      self.cooldown_c=1
 
 class Enemy(pygame.sprite.Sprite):
   def __init__(self,color,width,height):
@@ -80,11 +85,6 @@ def create_bullet():
   bullets_sprite.add(bullet_) #add to group
   #checking for bullet creation
   print(f"bullet # made: {len(bullets_sprite)}")
-
-def fire_bullet():
-  keyinpt=pygame.key.get_pressed()
-  if keyinpt[pygame.K_SPACE]:
-    create_bullet()
 
 def update_bullet():
   """Draws the bullet/updates Y position"""
@@ -148,7 +148,7 @@ while keep_playing:
   screen.fill((BLACK)) #recolors the screen 
   draw_player()
   movement()
-  fire_bullet()
+  Bullet.fire_bullet()
   #create_enemy()
 
   #Updates & Framerate 
