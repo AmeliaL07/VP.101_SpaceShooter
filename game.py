@@ -19,6 +19,7 @@ PURPLE=(127,0,255)
 APPLECOLOR=(66,124,99)
 P_WIDTH=30
 P_HEIGHT=60
+cooldown_c=0
 
 #passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
@@ -39,21 +40,6 @@ class Bullet(pygame.sprite.Sprite):
     #kinda unsure about these & what they actually DO? VV
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
     self.rect=self.image.get_rect()
-    #cooldown junk - CLASS FUNCTION PROPERTY
-    self.cooldown_c=0 #counter, will determine when to shoot (in range)
-
-  def cooldown_b(self):
-    """increases cooldown/resets"""
-    if self.cooldown_c>=5: #if hit cooldown
-      self.cooldown_c=0 #reset it
-    elif self.cooldown_c>0: 
-      self.cooldown_c+=1 #keep going
-
-  def fire_bullet(self):
-    keyinpt=pygame.key.get_pressed()
-    if keyinpt[pygame.K_SPACE] and self.cooldown_c==0:
-      create_bullet()
-      self.cooldown_c=1
 
 class Enemy(pygame.sprite.Sprite):
   def __init__(self,color,width,height):
@@ -85,6 +71,24 @@ def create_bullet():
   bullets_sprite.add(bullet_) #add to group
   #checking for bullet creation
   print(f"bullet # made: {len(bullets_sprite)}")
+
+def cooldown_b():
+  """increases cooldown/resets"""
+  global cooldown_c
+  if cooldown_c>=50: #if hit cooldown
+    cooldown_c=0 #reset it
+    print("I DONT")
+  elif cooldown_c>0: 
+    cooldown_c+=1 #keep going
+    print("I GO UP")
+
+def fire_bullet():
+  cooldown_b()
+  global cooldown_c
+  keyinpt=pygame.key.get_pressed()
+  if keyinpt[pygame.K_SPACE] and cooldown_c==0:
+    create_bullet()
+    cooldown_c=1
 
 def update_bullet():
   """Draws the bullet/updates Y position"""
@@ -148,7 +152,7 @@ while keep_playing:
   screen.fill((BLACK)) #recolors the screen 
   draw_player()
   movement()
-  Bullet.fire_bullet()
+  fire_bullet()
   #create_enemy()
 
   #Updates & Framerate 
