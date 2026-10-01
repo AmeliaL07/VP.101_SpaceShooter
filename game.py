@@ -19,7 +19,6 @@ PURPLE=(127,0,255)
 APPLECOLOR=(66,124,99)
 P_WIDTH=30
 P_HEIGHT=60
-cooldown_t=0 
 
 #passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
@@ -27,8 +26,7 @@ class Spaceship(pygame.sprite.Sprite):
     #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
-    self.image.fill(color) #change this to spaceship img instead later
-    
+    self.image.fill(color) #change this to spaceship img instead late
     #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
@@ -38,10 +36,19 @@ class Bullet(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) #w/h of bullet
     self.image.fill(color) #clr of bullet
-
     #kinda unsure about these & what they actually DO? VV
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
     self.rect=self.image.get_rect()
+    
+    #cooldown junk - CLASS FUNCTION PROPERTY
+    self.cooldown_c=0 #counter, will determine when to shoot (in range)
+
+  def cooldown_b(self):
+    """increases cooldown/resets"""
+    if self.cooldown_c>=5: #if hit cooldown
+      self.cooldown_c=0 #reset it
+    elif self.cooldown_c>0: 
+      self.cooldown_c+=1 #keep going
 
 class Enemy(pygame.sprite.Sprite):
   def __init__(self,color,width,height):
@@ -61,22 +68,23 @@ def movement():
       object_.rect.x+=1 
 
 def draw_player():
-  """Visual parts of the game"""
-  #all items drawn to the screen are handled here. (GRABS EVERY SPRITE IN THIS LIST)
+  """Visual of player spaceship"""
   ships_sprite.update() 
   ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
 
 def create_bullet():
   """Create a bullet object, default spawn above player."""
-  #global cooldown_t
+  bullet_=Bullet(WHITE,10,10)
+  bullet_.rect.x=object_.rect.x #puts bullet at current player position
+  bullet_.rect.y=750
+  bullets_sprite.add(bullet_) #add to group
+  #checking for bullet creation
+  print(f"bullet # made: {len(bullets_sprite)}")
+
+def fire_bullet():
   keyinpt=pygame.key.get_pressed()
   if keyinpt[pygame.K_SPACE]:
-    bullet_=Bullet(WHITE,10,10)
-    bullet_.rect.x=object_.rect.x #puts bullet at current player position
-    bullet_.rect.y=750
-    bullets_sprite.add(bullet_) #add to group
-    #checking for bullet creation
-    print(f"bullet # made: {len(bullets_sprite)}") 
+    create_bullet()
 
 def update_bullet():
   """Draws the bullet/updates Y position"""
@@ -140,12 +148,12 @@ while keep_playing:
   screen.fill((BLACK)) #recolors the screen 
   draw_player()
   movement()
-  create_bullet()
-  create_enemy()
+  fire_bullet()
+  #create_enemy()
 
   #Updates & Framerate 
   update_bullet()
-  update_enemy()
+  #update_enemy()
   pygame.display.update()
   clock.tick(100) 
 
