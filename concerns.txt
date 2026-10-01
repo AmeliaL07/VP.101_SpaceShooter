@@ -10,52 +10,26 @@ ALSO ALSO: The player spaceship is called "object_" in all the code.
 
 MOVEMENT:
 The player spaceship isnt bound to the screen, like it can go off it. 
-MIGHT be bad but atm it doesn't stop the program. Shrug. 
+ISSUE:
+    Obviously bad if they can just cheat and go offscreen
+    Didn't think about this b4 but if the player leaves screen would the enemies too?
+    Might focus on this more when I get to enemy spawning.
 
 BULLETS: 
 Linking the bullets onto the spaceship object (how??)
-ISSUE SOLVED:
+[ISSUE SOLVED]:
     At the time of creation, make the player and bullets x the same value.
 
 Making a cooldown for the bullets
-ISSUES:
-    IM SO ANNOYEDDD AUGFFH
-    Make cooldowns INSIDE of the class as a property maybe?? instead???
-        -maybe that way it will 100% access it. Maybe.  I could also js be writing syntax wrong but UGHH
+[ISSUE SOLVED (kinda)]:
+    Instead of turning to class methods for the functions I kept them "normal"
+    used a seperation function to handle the cooldown stuff, cooldown variable is global
+    Honesly I feel like class method would've been cleaner? But it was frustrating me so I defaulted back to what I KNEW worked. 
+-not very satisfied with my "solution" here but what more can you do yk.. 
 
-cause THIS doesnt work/do anythin VV
-def create_bullet():
-  """Create a bullet object, default spawn above player."""
-  shot_time=0 #timestamp of last shot
-  keyinpt=pygame.key.get_pressed()
-  if keyinpt[pygame.K_SPACE]:
-    time_made=pygame.time.get_ticks()
-    if time_made-shot_time>=COOLDOWN_T:
-      bullet_=Bullet(WHITE,10,10)
-      bullet_.rect.x=object_.rect.x #puts bullet at current player position
-      bullet_.rect.y=750
-      bullets_sprite.add(bullet_) 
-      shot_time==time_made
-      #checking for bullet creation
-      print(f"bullet # made: {len(bullets_sprite)}")
-    else:
-      print("waiting to create bullet")
+ENEMIES:
+They have no cooldown or randomization atm.
+Wondering if I should cap the amount that can exist at a time?
+^^^ probably not needed since player kills them anyway but js a thought..
 
-      
-BASE BULLETS (incase I [] it up)
-def create_bullet():
-  """Create a bullet object, default spawn above player."""
-  keyinpt=pygame.key.get_pressed()
-  if keyinpt[pygame.K_SPACE]:
-    bullet_=Bullet(WHITE,10,10)
-    bullet_.rect.x=object_.rect.x #puts bullet at current player position
-    bullet_.rect.y=750
-    bullets_sprite.add(bullet_)
-    #checking for bullet creation
-    print(f"bullet # made: {len(bullets_sprite)}")
-
-IMGONNA LOSE MYMMIN D HELP
-im rusty on class methods I think or whatever they called idk idk ababa lalala
-
-I CANT get cooldown() to interact with firebullet ONE BREAKS THE OTHER WHY iS COOLDOWN_C UNDEFINED
-I DEFINED ITOUSIDE OF THE FUNCTIONS ALREADY
+PS - dont forget to change APPLECOLOR to an actual thing (rgb is APPLECOLOR=(66,124,99) though lel)

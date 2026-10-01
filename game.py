@@ -16,10 +16,11 @@ screen_height=900
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 PURPLE=(127,0,255)
-APPLECOLOR=(66,124,99)
+APPLECOLOR=(66,200,99)
 P_WIDTH=30
 P_HEIGHT=60
-cooldown_c=0
+cooldown_cb=0
+cooldown_ce=0
 
 #passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
@@ -50,6 +51,7 @@ class Enemy(pygame.sprite.Sprite):
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect()
 
+#PLAYER FUNCTIONS
 def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
@@ -63,32 +65,33 @@ def draw_player():
   ships_sprite.update() 
   ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
 
+#BULLET FUNCTIONS
 def create_bullet():
   """Create a bullet object, default spawn above player."""
   bullet_=Bullet(WHITE,10,10)
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
   bullet_.rect.y=750
-  bullets_sprite.add(bullet_) #add to group
-  #checking for bullet creation
+  bullets_sprite.add(bullet_)
+  #bullet creation check
   print(f"bullet # made: {len(bullets_sprite)}")
 
 def cooldown_b():
   """increases cooldown/resets"""
-  global cooldown_c
-  if cooldown_c>=50: #if hit cooldown
-    cooldown_c=0 #reset it
-    print("I DONT")
-  elif cooldown_c>0: 
-    cooldown_c+=1 #keep going
-    print("I GO UP")
+  global cooldown_cb
+  if cooldown_cb>=50: #if hit cooldown
+    cooldown_cb=0 #reset it
+    #print("I DONT")
+  elif cooldown_cb>0: 
+    cooldown_cb+=1 
+    #print("I GO UP")
 
 def fire_bullet():
   cooldown_b()
-  global cooldown_c
+  global cooldown_cb
   keyinpt=pygame.key.get_pressed()
-  if keyinpt[pygame.K_SPACE] and cooldown_c==0:
+  if keyinpt[pygame.K_SPACE] and cooldown_cb==0:
     create_bullet()
-    cooldown_c=1
+    cooldown_cb=1
 
 def update_bullet():
   """Draws the bullet/updates Y position"""
@@ -101,14 +104,28 @@ def update_bullet():
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
-#these are REALLY broken right now, spawns an inf amount of enemies
+#ENEMIES -KINDA BROKEN
+def cooldown_e():
+  """increases cooldown/resets"""
+  global cooldown_ce
+  if cooldown_ce>=100: #if hit cooldown
+    cooldown_ce=0 #reset it
+    #print("I DONT")
+  elif cooldown_ce>0: 
+    cooldown_ce+=1 
+    #print("I GO UP")
+
 def create_enemy():
   """Create enemy object (eek!)"""
-  enemy_=Enemy(APPLECOLOR,7,3)
-  enemy_.rect.x=object_.rect.x #change to be randomized later
-  enemy_.rect.y=5
-  enemies_sprite.add(enemy_)
-  print(f"enemy # made: {len(enemies_sprite)}")
+  cooldown_e()
+  global cooldown_ce
+  if cooldown_ce==0:
+    enemy_=Enemy(APPLECOLOR,11,30)
+    enemy_.rect.x=object_.rect.x #change to be randomized later
+    enemy_.rect.y=5
+    enemies_sprite.add(enemy_)
+    print(f"enemy # made: {len(enemies_sprite)}")
+    cooldown_ce=1
 
 #placeholder update stuff yup yup
 def update_enemy():
@@ -117,9 +134,9 @@ def update_enemy():
   enemies_sprite.update()
   enemies_sprite.draw(screen)
 
+
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
-
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
 screen.fill(BLACK)
@@ -153,11 +170,11 @@ while keep_playing:
   draw_player()
   movement()
   fire_bullet()
-  #create_enemy()
+  create_enemy()
 
   #Updates & Framerate 
   update_bullet()
-  #update_enemy()
+  update_enemy()
   pygame.display.update()
   clock.tick(100) 
 
