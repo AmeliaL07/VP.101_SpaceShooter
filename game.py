@@ -65,8 +65,7 @@ def movement():
 def draw_player():
   """Visual of player spaceship"""
   ships_sprite.update() 
-  ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
-  
+  ships_sprite.draw(screen) 
 
 #BULLET FUNCTIONS
 def create_bullet():
@@ -75,13 +74,12 @@ def create_bullet():
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
   bullet_.rect.y=770
   bullets_sprite.add(bullet_)
-  #bullet creation check
   print(f"bullet # made: {len(bullets_sprite)}")
 
 def cooldown_b():
   """increases cooldown/resets"""
   global cooldown_cb
-  if cooldown_cb>=50: #if hit cooldown
+  if cooldown_cb>=60: #if hit cooldown
     cooldown_cb=0 #reset it
     #print("I DONT")
   elif cooldown_cb>0: 
@@ -97,8 +95,7 @@ def fire_bullet():
     cooldown_cb=1
 
 def update_bullet():
-  """Draws the bullet/updates Y position"""
-  #Moves the bullets up
+  """Draws the bullet/updates Y position upward"""
   for bullet in bullets_sprite:
     bullet.rect.y-=1
     if(bullet.rect.y<=0):
@@ -107,11 +104,11 @@ def update_bullet():
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
-#ENEMIES -KINDA BROKEN
+#ENEMIES
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=100: #if hit cooldown
+  if cooldown_ce>=450: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -123,8 +120,8 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,11,30)
-    enemy_.rect.x=random.randint(0,767) #full screen x = 0-767
+    enemy_=Enemy(APPLECOLOR,30,30)
+    enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
     print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
@@ -134,8 +131,8 @@ def create_enemy():
 def update_enemy():
   for enemy in enemies_sprite:
     enemy.rect.y+=1
-    #if (enemy.rect.y>=900):
-      #print("offscreen")
+    enemy.rect.x+=random.randint(-1,1) #Change these to two positives to watch it run away
+    #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
 
@@ -154,7 +151,7 @@ enemies_sprite=pygame.sprite.Group() #enemies group/list
 object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT)
 object_.rect.x=500 
 object_.rect.y=800 
-ships_sprite.add(object_) #adds spaceship into ships_sprite 
+ships_sprite.add(object_)
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
@@ -180,7 +177,7 @@ while keep_playing:
   update_bullet()
   update_enemy()
   pygame.display.update()
-  clock.tick(100) 
+  clock.tick(150) 
 
 #quits the pygame module 
 pygame.quit() 

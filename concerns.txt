@@ -2,8 +2,7 @@ Stuff that might be an issue LATER, but aren't ATM.
 Basically stuff I need to do that I need to look into (eventually)
 
 SPRITES:
-Bit worried about the sprite list later on, especially if the bullets are gonna all be in that list? 
-just a small little thought.
+Sprite lists are combinations of objects that have surfaces, widths, heights, and colors. Check pygame documentation for methods
 
 ALSO ALSO: The player spaceship is called "object_" in all the code.
 - I figured out the "syntax concern" thing, pretty sure you just need the underscore (aka name_)
@@ -12,13 +11,13 @@ MOVEMENT:
 The player spaceship isnt bound to the screen, like it can go off it. 
 ISSUE:
     Obviously bad if they can just cheat and go offscreen
-    Didn't think about this b4 but if the player leaves screen would the enemies too?
-    Might focus on this more when I get to enemy spawning.
+    Could have the player position be forced back on screen if they leave, maybe not.
 
 BULLETS: 
 Linking the bullets onto the spaceship object (how??)
 [ISSUE SOLVED]:
     At the time of creation, make the player and bullets x the same value.
+-DONT FORGET TO FIX THE BULLET POSITIONING (shoots out on the side of the player)
 
 Making a cooldown for the bullets
 [ISSUE SOLVED (kinda)]:
@@ -30,8 +29,10 @@ Making a cooldown for the bullets
 ENEMIES:
 Spawn cooldown implemented!
 Randomizing spawn location
-  Upon creation I could link a function that has a randomized value (x)
-    -get the range of the x-coords for the screen (probably 0-767) 
-  Not sure if I should reuse this when updating the bullet? Might be weird
+[SOLVED]:
+  Upon creation random.randint is called between the two x coords around the middleish of the screen
+  While descending the enemies have their x coord updated either to the left (-1) or to the right (+1) randomly
+    -This gives the "wiggle" effect, its kinda janky looking though. 
+    * DONT PUT TWO POSITIVES, BOTH NUMBERS HAVE TO BE THE SAME INT  (cant do -3,1 or they'll go too far)
 
 PS - dont forget to change APPLECOLOR to an actual thing (rgb is APPLECOLOR=(66,124,99) though lel)
