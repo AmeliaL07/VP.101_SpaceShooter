@@ -56,21 +56,24 @@ def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
     if keyinpt[pygame.K_LEFT]:
-      object_.rect.x-=1 
+      object_.rect.x-=1
+      #print(f"Player X:{object_.rect.x}") 
     elif keyinpt[pygame.K_RIGHT]:
       object_.rect.x+=1 
-
+      #print(f"Player X:{object_.rect.x}")
+    
 def draw_player():
   """Visual of player spaceship"""
   ships_sprite.update() 
   ships_sprite.draw(screen) #draws all sprites (in sprite list) onto the screen surface
+  
 
 #BULLET FUNCTIONS
 def create_bullet():
   """Create a bullet object, default spawn above player."""
   bullet_=Bullet(WHITE,10,10)
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
-  bullet_.rect.y=750
+  bullet_.rect.y=770
   bullets_sprite.add(bullet_)
   #bullet creation check
   print(f"bullet # made: {len(bullets_sprite)}")
@@ -121,19 +124,20 @@ def create_enemy():
   global cooldown_ce
   if cooldown_ce==0:
     enemy_=Enemy(APPLECOLOR,11,30)
-    enemy_.rect.x=object_.rect.x #change to be randomized later
+    enemy_.rect.x=random.randint(0,767) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
-    print(f"enemy # made: {len(enemies_sprite)}")
+    print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
     cooldown_ce=1
 
 #placeholder update stuff yup yup
 def update_enemy():
   for enemy in enemies_sprite:
     enemy.rect.y+=1
+    #if (enemy.rect.y>=900):
+      #print("offscreen")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
-
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 

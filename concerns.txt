@@ -28,8 +28,10 @@ Making a cooldown for the bullets
 -not very satisfied with my "solution" here but what more can you do yk.. 
 
 ENEMIES:
-They have no cooldown or randomization atm.
-Wondering if I should cap the amount that can exist at a time?
-^^^ probably not needed since player kills them anyway but js a thought..
+Spawn cooldown implemented!
+Randomizing spawn location
+  Upon creation I could link a function that has a randomized value (x)
+    -get the range of the x-coords for the screen (probably 0-767) 
+  Not sure if I should reuse this when updating the bullet? Might be weird
 
 PS - dont forget to change APPLECOLOR to an actual thing (rgb is APPLECOLOR=(66,124,99) though lel)
