@@ -7,24 +7,16 @@ Sprite lists are combinations of objects that have surfaces, widths, heights, an
 ALSO ALSO: The player spaceship is called "object_" in all the code.
 - I figured out the "syntax concern" thing, pretty sure you just need the underscore (aka name_)
 
-MOVEMENT:
-The player spaceship isnt bound to the screen, like it can go off it. 
-ISSUE:
-    Obviously bad if they can just cheat and go offscreen
-    Could have the player position be forced back on screen if they leave, maybe not.
-
 BULLETS: 
 Linking the bullets onto the spaceship object (how??)
 [ISSUE SOLVED]:
     At the time of creation, make the player and bullets x the same value.
--DONT FORGET TO FIX THE BULLET POSITIONING (shoots out on the side of the player)
 
 Making a cooldown for the bullets
 [ISSUE SOLVED (kinda)]:
     Instead of turning to class methods for the functions I kept them "normal"
     used a seperation function to handle the cooldown stuff, cooldown variable is global
-    Honesly I feel like class method would've been cleaner? But it was frustrating me so I defaulted back to what I KNEW worked. 
--not very satisfied with my "solution" here but what more can you do yk.. 
+    -not very satisfied with my "solution" here but what more can you do yk.. 
 
 ENEMIES:
 Spawn cooldown implemented!
@@ -36,3 +28,20 @@ Randomizing spawn location
     * DONT PUT TWO POSITIVES, BOTH NUMBERS HAVE TO BE THE SAME INT  (cant do -3,1 or they'll go too far)
 
 PS - dont forget to change APPLECOLOR to an actual thing (rgb is APPLECOLOR=(66,124,99) though lel)
+
+MISC ISSUES-
+Issues/fixes unrelated to specific stages I want to add/overhaul
+--
+MOVEMENT:
+The player spaceship isnt bound to the screen, like it can go off it. 
+    -Could have the player position be forced back on screen if they leave, maybe not.
+--
+CLASSES:
+Right now the classes I have aren't very useful, they don't have specific attributes
+    -Rewrite class specific functions (like bullet cooldown) to be attributes of their class (<-- PRIORITY)
+    instead of loose in the code, would be more optiminzed and professional
+
+    -Add speed variables/attributes for each object (spaceship speed,bullet speed,etc) 
+--
+SIZING:
+Fix wonky positioning/sizing of enemies or bullets
