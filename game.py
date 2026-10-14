@@ -24,7 +24,7 @@ cooldown_ce=0
 
 #passing width / height, and color. (color comes in w/obj call)
 class Spaceship(pygame.sprite.Sprite):
-  def __init__(self,color,width,height):
+  def __init__(self,color,width,height,speed=0):
     #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
@@ -32,6 +32,10 @@ class Spaceship(pygame.sprite.Sprite):
     #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
+    #speed attri -
+    self.speed=speed
+    def set_speed(self,speed): #allows speed to be changed
+      self.speed=speed 
 
 class Bullet(pygame.sprite.Sprite):
   def __init__(self,color,width,height):
@@ -56,10 +60,10 @@ def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
     if keyinpt[pygame.K_LEFT]:
-      object_.rect.x-=1
+      object_.rect.x-=1*object_.speed 
       #print(f"Player X:{object_.rect.x}") 
     elif keyinpt[pygame.K_RIGHT]:
-      object_.rect.x+=1 
+      object_.rect.x+=1*object_.speed 
       #print(f"Player X:{object_.rect.x}")
     
 def draw_player():
@@ -127,7 +131,6 @@ def create_enemy():
     print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
     cooldown_ce=1
 
-#placeholder update stuff yup yup
 def update_enemy():
   for enemy in enemies_sprite:
     enemy.rect.y+=1
@@ -148,7 +151,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
-object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT)
+object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,2) #speed last value
 object_.rect.x=500 
 object_.rect.y=800 
 ships_sprite.add(object_)
