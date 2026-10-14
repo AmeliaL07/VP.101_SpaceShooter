@@ -22,13 +22,13 @@ P_HEIGHT=60
 cooldown_cb=0
 cooldown_ce=0
 
-#passing width / height, and color. (color comes in w/obj call)
+#passing width / height, and color.
 class Spaceship(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speed=0):
     #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
-    self.image=pygame.Surface([width,height]) #gonna need to make a width/height variable
-    self.image.fill(color) #change this to spaceship img instead late
+    self.image=pygame.Surface([width,height]) 
+    self.image.fill(color)
     #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
@@ -38,22 +38,28 @@ class Spaceship(pygame.sprite.Sprite):
       self.speed=speed 
 
 class Bullet(pygame.sprite.Sprite):
-  def __init__(self,color,width,height):
+  def __init__(self,color,width,height,speedB=1):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) #w/h of bullet
     self.image.fill(color) #clr of bullet
-    #kinda unsure about these & what they actually DO? VV
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height)) 
     self.rect=self.image.get_rect()
+    #speed
+    self.speedB=speedB
+    def set_speed(self,speedB):
+      self.speedB=speedB 
 
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self,color,width,height):
+  def __init__(self,color,width,height,speedE=1):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height])
     self.image.fill(color)
-
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect()
+    #spd
+    self.speedE=speedE
+    def set_speed(self,speedE):
+      self.speedE=speedE
 
 #PLAYER FUNCTIONS
 def movement():
@@ -74,7 +80,7 @@ def draw_player():
 #BULLET FUNCTIONS
 def create_bullet():
   """Create a bullet object, default spawn above player."""
-  bullet_=Bullet(WHITE,10,10)
+  bullet_=Bullet(WHITE,10,10,4)
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
   bullet_.rect.y=770
   bullets_sprite.add(bullet_)
@@ -101,7 +107,7 @@ def fire_bullet():
 def update_bullet():
   """Draws the bullet/updates Y position upward"""
   for bullet in bullets_sprite:
-    bullet.rect.y-=1
+    bullet.rect.y-=1*bullet.speedB
     if(bullet.rect.y<=0):
       bullets_sprite.remove(bullet) 
       print(f"Bullet removed")
@@ -124,16 +130,17 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30)
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,3)) #experimenting w/random speeds
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
     print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
+    print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
 
 def update_enemy():
   for enemy in enemies_sprite:
-    enemy.rect.y+=1
+    enemy.rect.y+=1*enemy.speedE
     enemy.rect.x+=random.randint(-1,1) #Change these to two positives to watch it run away
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
   enemies_sprite.update()
@@ -151,7 +158,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
-object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,2) #speed last value
+object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,2) # <-- speed 
 object_.rect.x=500 
 object_.rect.y=800 
 ships_sprite.add(object_)
