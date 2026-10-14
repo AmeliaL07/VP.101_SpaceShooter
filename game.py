@@ -24,7 +24,7 @@ cooldown_ce=0
 
 #passing width / height, and color.
 class Spaceship(pygame.sprite.Sprite):
-  def __init__(self,color,width,height,speed=0):
+  def __init__(self,color,width,height,speed=1):
     #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) 
@@ -80,7 +80,7 @@ def draw_player():
 #BULLET FUNCTIONS
 def create_bullet():
   """Create a bullet object, default spawn above player."""
-  bullet_=Bullet(WHITE,10,10,4)
+  bullet_=Bullet(WHITE,10,10,8)
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
   bullet_.rect.y=770
   bullets_sprite.add(bullet_)
@@ -89,7 +89,7 @@ def create_bullet():
 def cooldown_b():
   """increases cooldown/resets"""
   global cooldown_cb
-  if cooldown_cb>=60: #if hit cooldown
+  if cooldown_cb>=30: #if hit cooldown
     cooldown_cb=0 #reset it
     #print("I DONT")
   elif cooldown_cb>0: 
@@ -118,7 +118,7 @@ def update_bullet():
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=450: #if hit cooldown
+  if cooldown_ce>=150: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -130,7 +130,7 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,3)) #experimenting w/random speeds
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(4,8)) #experimenting w/random speeds
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
@@ -158,7 +158,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
-object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,2) # <-- speed 
+object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,6) # <-- speed 
 object_.rect.x=500 
 object_.rect.y=800 
 ships_sprite.add(object_)
@@ -187,7 +187,7 @@ while keep_playing:
   update_bullet()
   update_enemy()
   pygame.display.update()
-  clock.tick(150) 
+  clock.tick(60) 
 
 #quits the pygame module 
 pygame.quit() 
