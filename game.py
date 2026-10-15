@@ -12,13 +12,19 @@ pygame.init()
 screen_width=800
 screen_height=900
 
-#variable initializers / constants 
+#variable initializers
+#colors
 WHITE=(255,255,255)
 BLACK=(0,0,0)
-PURPLE=(127,0,255)
-APPLECOLOR=(66,200,99) #(66,124,99)
+APPLECOLOR=(66,200,99)
+redP=0
+greenP=221
+blueP=255
+ship_color=(redP, greenP, blueP) #og is 127,0,255
+#width/height
 P_WIDTH=30
 P_HEIGHT=60
+#cooldowns
 cooldown_cb=0
 cooldown_ce=0
 
@@ -149,10 +155,23 @@ def update_enemy():
 #colliding
 def collision():
   """Checks if a bullets rect collides with an Enemies rect, will terminate both if true"""
+  """ALSO compares rect of player and enemy, supposed to term enemy and alter spaceships color if collision is true"""
+  global redP
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
+  player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
   if enemy_hit:
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
+    #score increase directly/link to score increase function (stage6)
+  if player_hit:
+    print("oww")
+    #trying to see if the color changes AFTER creation but it doesnt here either.. 
+    redP+=50
+    object_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7)
+    object_.rect.x=500 
+    object_.rect.y=800 
+    ships_sprite.add(object_)
+    #this isnt affected by other functions im sure, movement doesnt grab this spaceship either so...
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -166,7 +185,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making OBJ (ship)+ starting position(rect.x/y)
-object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,7) # <-- speed 
+object_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7) # <-- speed 
 object_.rect.x=500 
 object_.rect.y=800 
 ships_sprite.add(object_)

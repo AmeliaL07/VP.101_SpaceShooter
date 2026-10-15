@@ -27,6 +27,9 @@ Randomizing spawn location
     -This gives the "wiggle" effect, its kinda janky looking though. 
     * DONT PUT TWO POSITIVES, BOTH NUMBERS HAVE TO BE THE SAME INT  (cant do -3,1 or they'll go too far)
 
+PlAYER:
+I can't change the color after creation
+
 MISC ISSUES-
 Issues/fixes unrelated to specific stages I want to add/overhaul
 --
