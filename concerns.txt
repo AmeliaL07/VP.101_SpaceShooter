@@ -27,8 +27,6 @@ Randomizing spawn location
     -This gives the "wiggle" effect, its kinda janky looking though. 
     * DONT PUT TWO POSITIVES, BOTH NUMBERS HAVE TO BE THE SAME INT  (cant do -3,1 or they'll go too far)
 
-PS - dont forget to change APPLECOLOR to an actual thing (rgb is APPLECOLOR=(66,124,99) though lel)
-
 MISC ISSUES-
 Issues/fixes unrelated to specific stages I want to add/overhaul
 --
@@ -40,8 +38,6 @@ CLASSES:
 Right now the classes I have aren't very useful, they don't have specific attributes
     -Rewrite class specific functions (like bullet cooldown) to be attributes of their class (<-- PRIORITY)
     instead of loose in the code, would be more optiminzed and professional
-
-    -Add speed variables/attributes for each object (spaceship speed,bullet speed,etc) 
 --
 SIZING:
 Fix wonky positioning/sizing of enemies or bullets

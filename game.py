@@ -16,7 +16,7 @@ screen_height=900
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 PURPLE=(127,0,255)
-APPLECOLOR=(66,200,99)
+APPLECOLOR=(66,200,99) #(66,124,99)
 P_WIDTH=30
 P_HEIGHT=60
 cooldown_cb=0
@@ -80,11 +80,11 @@ def draw_player():
 #BULLET FUNCTIONS
 def create_bullet():
   """Create a bullet object, default spawn above player."""
-  bullet_=Bullet(WHITE,10,10,8)
+  bullet_=Bullet(WHITE,16,8,8)
   bullet_.rect.x=object_.rect.x #puts bullet at current player position
-  bullet_.rect.y=770
+  bullet_.rect.y=object_.rect.y-5
   bullets_sprite.add(bullet_)
-  print(f"bullet # made: {len(bullets_sprite)}")
+  #print(f"bullet # made: {len(bullets_sprite)}")
 
 def cooldown_b():
   """increases cooldown/resets"""
@@ -110,7 +110,7 @@ def update_bullet():
     bullet.rect.y-=1*bullet.speedB
     if(bullet.rect.y<=0):
       bullets_sprite.remove(bullet) 
-      print(f"Bullet removed")
+      #print(f"Bullet removed")
   bullets_sprite.update()
   bullets_sprite.draw(screen)
 
@@ -118,7 +118,7 @@ def update_bullet():
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=150: #if hit cooldown
+  if cooldown_ce>=75: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -130,11 +130,11 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(4,8)) #experimenting w/random speeds
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(3,7)) #experimenting w/random speeds
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
-    print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
+    #print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
     print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
 
@@ -145,6 +145,14 @@ def update_enemy():
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
+
+#colliding
+def bullethit():
+  """Checks if a bullets rect collides with an Enemies rect"""
+  pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=None) #worried about the dokills
+  #dokill is a bool, ik that, assinging it up here would just give it a default value I think but what if it messes smth up later??
+  #I think its just asking if I WANT that group killed/removed or not >_>?
+
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -158,7 +166,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making the OBJ (ship) and deciding its position on screen (rect.x/y)
-object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,6) # <-- speed 
+object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,7) # <-- speed 
 object_.rect.x=500 
 object_.rect.y=800 
 ships_sprite.add(object_)
