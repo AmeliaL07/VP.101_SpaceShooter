@@ -118,7 +118,7 @@ def update_bullet():
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=75: #if hit cooldown
+  if cooldown_ce>=70: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -135,7 +135,7 @@ def create_enemy():
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
     #print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
-    print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
+    #print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
 
 def update_enemy():
@@ -147,12 +147,12 @@ def update_enemy():
   enemies_sprite.draw(screen)
 
 #colliding
-def bullethit():
-  """Checks if a bullets rect collides with an Enemies rect"""
-  pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=None) #worried about the dokills
-  #dokill is a bool, ik that, assinging it up here would just give it a default value I think but what if it messes smth up later??
-  #I think its just asking if I WANT that group killed/removed or not >_>?
-
+def collision():
+  """Checks if a bullets rect collides with an Enemies rect, will terminate both if true"""
+  #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
+  enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
+  if enemy_hit:
+    print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -160,12 +160,12 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Game Window")  
 screen.fill(BLACK)
 
-#Making the objects lists 
+#Objects lists 
 ships_sprite=pygame.sprite.Group() #ship group -rlly pointless cause theres only 1 ship.
 bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
-#Making the OBJ (ship) and deciding its position on screen (rect.x/y)
+#Making OBJ (ship)+ starting position(rect.x/y)
 object_=Spaceship(PURPLE,P_WIDTH,P_HEIGHT,7) # <-- speed 
 object_.rect.x=500 
 object_.rect.y=800 
@@ -190,6 +190,7 @@ while keep_playing:
   movement()
   fire_bullet()
   create_enemy()
+  collision()
 
   #Updates & Framerate 
   update_bullet()
