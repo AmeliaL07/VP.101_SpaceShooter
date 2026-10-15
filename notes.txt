@@ -17,7 +17,15 @@ pygame.image.load("objexample"):
  > Automatically creates a surface object (I think?) based on what was said
     >(Slightly unrelated) - The screen itself is one big Surface obj, the more you know! 
 
+Collision (in general):
+>Pygame documentation has a function under Sprites called spritecollide() and collide_rect()
+    >spritecollide "Returns a list containing all Sprites in a Group that intersect with another Sprite." based on rect.attributes of them
+    takes in two sprites as values and returns a bool if collision is True
+        wondering if this is only for the specified group one of them is in?
+        if I have my bullet_group and enemy_group interact, would it matter?
 
-REUSE IMAGE FOR EAC DUPLICATION, CHANGE THE RECT thing
-reference the one variable that you have (ex bullet)
->change rect of bullet1 or b2 or b3 blah blah (I think thats what was said)
+    >sprite.groupcollide() seems to compare two groups.. 
+        -collided sprites are removed from both groups respectively (I BELIEVE?) <-- this one seems better?
+    .groupcollide(group1, group2, dokill1,dokill2,collided=none)
+        -Sprite group1 is compared to sprite group2, dokill(s) are bools that will be true based 
+        on if collision (same rect.x/y) of spriteG1 and spriteG2 happens. Im not sure what collided really does? Guess ill find out
