@@ -47,7 +47,10 @@ class Spaceship(pygame.sprite.Sprite):
     global ship_color
     tupleconvert=list(ship_color)
     tupleconvert[0]+=51
-    ship_color=tuple(tupleconvert)
+    if tupleconvert[0]<=255:
+      ship_color=tuple(tupleconvert)
+    else:
+      pass
 
 class Bullet(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speedB=1):
