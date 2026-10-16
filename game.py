@@ -17,7 +17,6 @@ screen_height=900
 WHITE=(255,255,255)
 BLACK=(0,0,0)
 APPLECOLOR=(66,200,99)
-redP=0
 ship_color=(0, 221, 255) #og is 127,0,255
 #width/height
 P_WIDTH=30
@@ -41,8 +40,7 @@ class Spaceship(pygame.sprite.Sprite):
   def set_speed(self,speed): #allows speed to be changed
     self.speed=speed 
     #color get-set
-  def hit_recolor(self):
-    self.color=(255,255,255)
+  def hit_recolor(self,color):
     self.image.fill(self.color)
 
 class Bullet(pygame.sprite.Sprite):
@@ -54,8 +52,8 @@ class Bullet(pygame.sprite.Sprite):
     self.rect=self.image.get_rect()
     #speed
     self.speedB=speedB
-    def set_speed(self,speedB):
-      self.speedB=speedB 
+  def set_speed(self,speedB):
+    self.speedB=speedB 
 
 class Enemy(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speedE=1):
@@ -66,8 +64,8 @@ class Enemy(pygame.sprite.Sprite):
     self.rect=self.image.get_rect()
     #spd
     self.speedE=speedE
-    def set_speed(self,speedE):
-      self.speedE=speedE
+  def set_speed(self,speedE):
+    self.speedE=speedE
 
 #PLAYER FUNCTIONS
 def movement():
@@ -158,7 +156,7 @@ def update_enemy():
 def collision():
   """Checks if a bullets rect collides with an Enemies rect, will terminate both if true"""
   """ALSO compares rect of player and enemy, supposed to term enemy and alter spaceships color if collision is true"""
-  
+  global ship_color
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
@@ -168,7 +166,10 @@ def collision():
   if player_hit:
     print("oww")
     #changing ship color on hit
-    ship_.hit_recolor()
+    tupleconvert=list(ship_color)
+    tupleconvert[0]+=50
+    ship_color=tuple(tupleconvert)
+    ship_.hit_recolor(ship_color)
   
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
