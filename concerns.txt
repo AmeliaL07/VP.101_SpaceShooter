@@ -41,6 +41,7 @@ CLASSES:
 Right now the classes I have aren't very useful, they don't have specific attributes
     -Rewrite class specific functions (like bullet cooldown) to be attributes of their class (<-- PRIORITY)
     instead of loose in the code, would be more optiminzed and professional
+    -Theres too many global variables and its not very professional, it should be rewritten.
 --
 SIZING:
 Fix wonky positioning/sizing of enemies or bullets

@@ -50,7 +50,7 @@ class Spaceship(pygame.sprite.Sprite):
     if tupleconvert[0]<=255:
       ship_color=tuple(tupleconvert)
     else:
-      pass
+      pass #will lead to a gameover screen eventually
 
 class Bullet(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speedB=1):
@@ -158,6 +158,9 @@ def update_enemy():
     enemy.rect.y+=1*enemy.speedE
     enemy.rect.x+=random.randint(-1,1) #Change these to two positives to watch it run away
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
+    if enemy.rect.y>=999:
+      enemies_sprite.remove(enemy)
+      print(f"enemy #{len(enemies_sprite)} terminated")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
 
