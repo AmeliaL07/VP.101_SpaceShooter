@@ -18,9 +18,7 @@ WHITE=(255,255,255)
 BLACK=(0,0,0)
 APPLECOLOR=(66,200,99)
 redP=0
-greenP=221
-blueP=255
-ship_color=(redP, greenP, blueP) #og is 127,0,255
+ship_color=(0, 221, 255) #og is 127,0,255
 #width/height
 P_WIDTH=30
 P_HEIGHT=60
@@ -40,8 +38,12 @@ class Spaceship(pygame.sprite.Sprite):
     self.rect=self.image.get_rect() 
     #speed attri -
     self.speed=speed
-    def set_speed(self,speed): #allows speed to be changed
-      self.speed=speed 
+  def set_speed(self,speed): #allows speed to be changed
+    self.speed=speed 
+    #color get-set
+  def hit_recolor(self):
+    self.color=(255,255,255)
+    self.image.fill(self.color)
 
 class Bullet(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speedB=1):
@@ -72,11 +74,11 @@ def movement():
     """Check if/what movemnt key is pressed, then calculate new pos."""
     keyinpt=pygame.key.get_pressed() #access the keyname stuff yeah ea 
     if keyinpt[pygame.K_LEFT]:
-      object_.rect.x-=1*object_.speed 
-      #print(f"Player X:{object_.rect.x}") 
+      ship_.rect.x-=1*ship_.speed 
+      #print(f"Player X:{ship_.rect.x}") 
     elif keyinpt[pygame.K_RIGHT]:
-      object_.rect.x+=1*object_.speed 
-      #print(f"Player X:{object_.rect.x}")
+      ship_.rect.x+=1*ship_.speed 
+      #print(f"Player X:{ship_.rect.x}")
     
 def draw_player():
   """Visual of player spaceship"""
@@ -87,8 +89,8 @@ def draw_player():
 def create_bullet():
   """Create a bullet object, default spawn above player."""
   bullet_=Bullet(WHITE,16,8,8)
-  bullet_.rect.x=object_.rect.x #puts bullet at current player position
-  bullet_.rect.y=object_.rect.y-5
+  bullet_.rect.x=ship_.rect.x #puts bullet at current player position
+  bullet_.rect.y=ship_.rect.y-5
   bullets_sprite.add(bullet_)
   #print(f"bullet # made: {len(bullets_sprite)}")
 
@@ -156,7 +158,7 @@ def update_enemy():
 def collision():
   """Checks if a bullets rect collides with an Enemies rect, will terminate both if true"""
   """ALSO compares rect of player and enemy, supposed to term enemy and alter spaceships color if collision is true"""
-  global redP
+  
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
@@ -165,14 +167,9 @@ def collision():
     #score increase directly/link to score increase function (stage6)
   if player_hit:
     print("oww")
-    #trying to see if the color changes AFTER creation but it doesnt here either.. 
-    redP+=50
-    object_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7)
-    object_.rect.x=500 
-    object_.rect.y=800 
-    ships_sprite.add(object_)
-    #this isnt affected by other functions im sure, movement doesnt grab this spaceship either so...
-
+    #changing ship color on hit
+    ship_.hit_recolor()
+  
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 #Window Name / Color
@@ -185,10 +182,10 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making OBJ (ship)+ starting position(rect.x/y)
-object_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7) # <-- speed 
-object_.rect.x=500 
-object_.rect.y=800 
-ships_sprite.add(object_)
+ship_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7) # <-- speed 
+ship_.rect.x=500 
+ship_.rect.y=800 
+ships_sprite.add(ship_)
 
 #Frame rate regulation 
 clock = pygame.time.Clock() 
