@@ -1,9 +1,9 @@
-Stuff that might be an issue LATER, but aren't ATM. 
-Basically stuff I need to do that I need to look into (eventually)
+
+Past, present, and future issues I've come across 
+If solved I'll say how below!
 
 SPRITES:
 Sprite lists are combinations of objects that have surfaces, widths, heights, and colors. Check pygame documentation for methods
-
 ALSO ALSO: The player spaceship is called "object_" in all the code.
 - I figured out the "syntax concern" thing, pretty sure you just need the underscore (aka name_)
 
@@ -27,8 +27,12 @@ Randomizing spawn location
     -This gives the "wiggle" effect, its kinda janky looking though. 
     * DONT PUT TWO POSITIVES, BOTH NUMBERS HAVE TO BE THE SAME INT  (cant do -3,1 or they'll go too far)
 
-PlAYER:
-I can't change the color after creation
+PLAYER:
+Color not changing after modifying the RGB value
+[ISSUE SOLVED]:
+    I fixed the color not changing, I wasn't "re-filling" the rect (aka the spaceship) after updating it 
+    so it never actually updated it visually.
+    -yay. (I hated how this was so simple)
 
 MISC ISSUES-
 Issues/fixes unrelated to specific stages I want to add/overhaul
@@ -41,7 +45,7 @@ CLASSES:
 Right now the classes I have aren't very useful, they don't have specific attributes
     -Rewrite class specific functions (like bullet cooldown) to be attributes of their class (<-- PRIORITY)
     instead of loose in the code, would be more optiminzed and professional
-    -Theres too many global variables and its not very professional, it should be rewritten.
+    -Theres too many global variables and its not very professional, it should be rewritten, ties back into above issue.
 --
 SIZING:
 Fix wonky positioning/sizing of enemies or bullets
