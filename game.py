@@ -27,7 +27,7 @@ cooldown_ce=0
 
 #passing width / height, and color.
 class Spaceship(pygame.sprite.Sprite):
-  def __init__(self,color,width,height,speed=1):
+  def __init__(self,color,width,height,speed=1,health=5):
     #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) 
@@ -35,22 +35,38 @@ class Spaceship(pygame.sprite.Sprite):
     #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
-    #speed attri -
+    #speed/health attri -
     self.speed=speed
+    self.health=health
+
   def set_speed(self,speed): #allows speed to be changed
     self.speed=speed 
     #color get-set
   def set_color(self,color):
     self.color=color
-    #bane of my existence VVV
-  def hit_recolor(self):
+    #health
+  def set_health(self,health):
+    self.health=health
+  def get_health(self):
+    return(self.health)
+  
+  def decrease_health(self):
+    """Decreases health variable, made for hit detect"""
+    if self.health>=0:
+      self.health-=1
+    else:
+      self.health=-1
+    #print(self.get_health())
+
+  def damage_indicator(self):
+    """Recolors the ship based on damage (collision / enemy screen exit)"""
     global ship_color
     tupleconvert=list(ship_color)
     tupleconvert[0]+=51
     if tupleconvert[0]<=255:
       ship_color=tuple(tupleconvert)
     else:
-      pass #will lead to a gameover screen eventually
+      print("-1 Health State (dead)") #will lead to a gameover screen eventually
 
 class Bullet(pygame.sprite.Sprite):
   def __init__(self,color,width,height,speedB=1):
@@ -176,11 +192,20 @@ def collision():
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
     #score increase directly/link to score increase function (stage6)
   if player_hit:
-    print("oww")
     #changing ship color on hit
-    ship_.hit_recolor()
+    ship_.damage_indicator()
     ship_.image.fill(ship_color)
-  
+    #changing health
+    ship_.decrease_health()
+    if ship_.health>=0:
+      print(f"{ship_.health} hits remaining")
+    else:
+      print("Player has died (technically)")
+    
+
+#make gameover function -needs to check decrease_health
+  #def gameover yap
+
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 #Window Name / Color
@@ -193,7 +218,7 @@ bullets_sprite=pygame.sprite.Group() #bullets group/list
 enemies_sprite=pygame.sprite.Group() #enemies group/list
 
 #Making OBJ (ship)+ starting position(rect.x/y)
-ship_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7) # <-- speed 
+ship_=Spaceship(ship_color,P_WIDTH,P_HEIGHT,7,5) # <-- speed/health 
 ship_.rect.x=500 
 ship_.rect.y=800 
 ships_sprite.add(ship_)
