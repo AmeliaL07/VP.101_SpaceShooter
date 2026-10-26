@@ -24,32 +24,38 @@ P_HEIGHT=60
 #cooldowns
 cooldown_cb=0
 cooldown_ce=0
+#txt
+
 
 #passing width / height, and color.
 class Spaceship(pygame.sprite.Sprite):
-  def __init__(self,color,width,height,speed=1,health=5):
-    #call parent class, Sprite, to access it
+  def __init__(self,color,width,height,speed=1,health=5,points=0):
+  #call parent class, Sprite, to access it
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height]) 
     self.image.fill(color)
-    #creates rectangle for the ships surface, Rect is saving position on the screen 
+  #creates rectangle for the ships surface, Rect is saving position on the screen 
     pygame.draw.rect(self.image,color,pygame.Rect(0,0,width,height))
     self.rect=self.image.get_rect() 
-    #speed/health attri -
+  #additional attributes-
     self.speed=speed
     self.health=health
-
-  def set_speed(self,speed): #allows speed to be changed
+    self.points=points
+  #Sets/Gets
+  def set_speed(self,speed): 
     self.speed=speed 
-    #color get-set
   def set_color(self,color):
     self.color=color
-    #health
   def set_health(self,health):
     self.health=health
   def get_health(self):
     return(self.health)
   
+  def set_points(self,points):
+    self.points=points
+  def get_points(self):
+    return(self.points)
+
   def decrease_health(self):
     """Decreases health variable, made for hit detect"""
     if self.health>=0:
@@ -81,7 +87,7 @@ class Bullet(pygame.sprite.Sprite):
     self.speedB=speedB 
 
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self,color,width,height,speedE=1):
+  def __init__(self,color,width,height,speedE=1,pointval=10):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height])
     self.image.fill(color)
@@ -89,6 +95,8 @@ class Enemy(pygame.sprite.Sprite):
     self.rect=self.image.get_rect()
     #spd
     self.speedE=speedE
+    #point
+    self.pointval=pointval
   def set_speed(self,speedE):
     self.speedE=speedE
 
@@ -161,7 +169,7 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(3,7)) #experimenting w/random speeds
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(3,7),10) #randomspeed / points
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
@@ -176,21 +184,24 @@ def update_enemy():
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
     if enemy.rect.y>=999:
       enemies_sprite.remove(enemy)
-      print(f"enemy #{len(enemies_sprite)} terminated")
+      #print(f"enemy #{len(enemies_sprite)} terminated")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
 
 #colliding
 def collision():
-  """Checks if a bullets rect collides with an Enemies rect, will terminate both if true"""
-  """ALSO compares rect of player and enemy, supposed to term enemy and alter spaceships color if collision is true"""
+  """Check for intersection of rects (x/y) of all objects with eachother"""
   global ship_color
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
+
   if enemy_hit:
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
     #score increase directly/link to score increase function (stage6)
+    ship_.points+=1
+    print(f"Player has {ship_.get_points()} points")
+
   if player_hit:
     #changing ship color on hit
     ship_.damage_indicator()
@@ -202,7 +213,6 @@ def collision():
     else:
       print("Player has died (technically)")
     
-
 #make gameover function -needs to check decrease_health
   #def gameover yap
 
@@ -232,18 +242,19 @@ keep_playing=True
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
   for event in pygame.event.get(): 
-    #If ESC, quit
-    if event.type == pygame.QUIT: 
+    keyinpt=pygame.key.get_pressed()
+    if keyinpt[pygame.K_x]:
+      event.type == pygame.QUIT
       keep_playing = False
 
-  #screen drawing
+  #screen drawing/display
   screen.fill((BLACK)) #recolors the screen 
   draw_player()
+  #Game mechanic calls
   movement()
   fire_bullet()
   create_enemy()
   collision()
-
   #Updates & Framerate 
   update_bullet()
   update_enemy()
