@@ -24,7 +24,8 @@ P_HEIGHT=60
 #cooldowns
 cooldown_cb=0
 cooldown_ce=0
-#txt
+#txt font
+SCOREFONT=pygame.font.SysFont("Comic Sans MS",40) #sets font styke/size
 
 
 #passing width / height, and color.
@@ -184,6 +185,8 @@ def update_enemy():
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
     if enemy.rect.y>=999:
       enemies_sprite.remove(enemy)
+      if ship_.points>0:
+        ship_.points-=10
       #print(f"enemy #{len(enemies_sprite)} terminated")
   enemies_sprite.update()
   enemies_sprite.draw(screen)
@@ -199,7 +202,7 @@ def collision():
   if enemy_hit:
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
     #score increase directly/link to score increase function (stage6)
-    ship_.points+=1
+    ship_.points+=10
     print(f"Player has {ship_.get_points()} points")
 
   if player_hit:
@@ -213,6 +216,10 @@ def collision():
     else:
       print("Player has died (technically)")
     
+def draw_score():
+  """Updating score txt and such"""
+  screen.blit(scoretxt,(0,0))
+
 #make gameover function -needs to check decrease_health
   #def gameover yap
 
@@ -236,6 +243,10 @@ ships_sprite.add(ship_)
 #Frame rate regulation 
 clock = pygame.time.Clock() 
 
+#text render guy
+scoretxt=SCOREFONT.render(f"Current Score: {ship_.points}",True,WHITE) #Uses Font,
+scoreRect=scoretxt.get_rect() #makes a rect for txt, allows to draw
+
 #Game loop vari
 keep_playing=True 
 #Game Loop - updating/redrawing
@@ -250,6 +261,7 @@ while keep_playing:
   #screen drawing/display
   screen.fill((BLACK)) #recolors the screen 
   draw_player()
+  draw_score()
   #Game mechanic calls
   movement()
   fire_bullet()
