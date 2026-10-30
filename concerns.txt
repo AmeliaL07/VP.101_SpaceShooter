@@ -34,26 +34,22 @@ Different point values per enemy
 -How do I make enemy accessible without taking it out of the function? Can I do something for when its being created?
     -Even then I can't change the amount that the score will go up by because its locked behind the point value attribute
     -I also dont think that would work since each new object is unique? ^^
-
--I COULD maybe overhaul the enemy class, making it a super class and making the different enemy speed types inherit from it instead.
-    -This would give them all different base values, **doesn't solve my scope problem though.** Also would take a little while <_<
-
 -Using "For Enemy in Enemies_sprites (or whatever I called it) seems to work in update.enemy()... try that?
 
 BIG ERROR RIGHT NOW: The pointvalue im trying to grab doesn't exist by the time collision happens, therefore its added incorrectly. 
 
-    Because of this the code runs increase_score() based on how many enemies currently exist in the list (the index)
+    Because of this the code runs increase_score() based on how many enemies currently exist in the list (the index) (based on the for enemies in Enemies_sprites)
     >Like if I have 3 enemies that exist (index 0,1,2) it'll run TWICE. (if my points are +1, then it'd be [+2 points])
+-FIND OUT HOW TO GET [[THAT]] SPECIFIC ENEMY THATS BEING HIT BEFORE ITS KILLED. Look into your pygame.spritelists maybe to see if its possible
+    -I know the COMPUTER knows which enemy its hitting because it'd *have* to know, but how do *I* know? 
 
--FIND OUT HOW TO GET [[THAT]] SPECIFIC ENEMY THATS BEING HIT BEFORE ITS KILLED. Look into your pygame.spritelists 
-
+    -I could just handle points without the function, adding it right as the enemy gets hit. It might be easier?
 
 PLAYER:
 Color not changing after modifying the RGB value
 [ISSUE SOLVED]:
-    I fixed the color not changing, I wasn't "re-filling" the rect (aka the spaceship) after updating it 
-    so it never actually updated it visually.
-    -yay. (I hated how this was so simple)
+    I fixed the color not changing, I wasn't "re-filling" the rect (aka the spaceship) after updating it so it never actually updated it visually.
+    -yay. (I hate how this was so simple)
 
 MISC ISSUES-
 Issues/fixes unrelated to specific stages I want to add/overhaul
