@@ -88,7 +88,7 @@ class Bullet(pygame.sprite.Sprite):
     self.speedB=speedB 
 
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self,color,width,height,speedE=1,pointval=10):
+  def __init__(self,color,width,height,speedE=1,pointval=1):
     pygame.sprite.Sprite.__init__(self)
     self.image=pygame.Surface([width,height])
     self.image.fill(color)
@@ -98,6 +98,7 @@ class Enemy(pygame.sprite.Sprite):
     self.speedE=speedE
     #point
     self.pointval=pointval
+
   def set_speed(self,speedE):
     self.speedE=speedE
   def set_pointval(self,pointval):
@@ -160,7 +161,7 @@ def update_bullet():
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=70: #if hit cooldown
+  if cooldown_ce>=200: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -172,7 +173,7 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,7),1) #randomspeed / point default
+    enemy_=Enemy(APPLECOLOR,30,30,1,1) #randomspeed / point default random.randint(1,2)
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
@@ -192,12 +193,11 @@ def create_enemy():
 def update_enemy():
   for enemy in enemies_sprite:
     enemy.rect.y+=1*enemy.speedE
-    enemy.rect.x+=random.randint(-1,1) #Change these to two positives to watch it run away
-    #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
+    enemy.rect.x+=random.randint(-1,1)
     if enemy.rect.y>=999:
       enemies_sprite.remove(enemy)
-      decrease_score()
-      if ship_.points>0:
+      #decrease_score()
+      if ship_.points>=0:
         update_scoretxt()
       elif ship_.points<0:
         #update_scoretxt()
@@ -213,12 +213,12 @@ def collision():
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
 
-  if enemy_hit:
-    print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
-    #score increase directly/link to score increase function (stage6) 
-    increase_score()
-    update_scoretxt()
-    #print(f"Player has {ship_.get_points()} points")
+  for enemy in enemies_sprite:
+    if enemy_hit:
+      #print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
+      increase_score(enemy.pointval)
+      update_scoretxt()
+      #print(f"Player has {ship_.get_points()} points")
     
   if player_hit:
     #changing ship color on hit
@@ -231,9 +231,9 @@ def collision():
     else:
       print("Player has died (technically)")
     
-def increase_score():
+def increase_score(point_amt): #add param relating to enemy point value getting added
   """Increase player points based on certain condiions"""
-  ship_.points+=10
+  ship_.points+=point_amt
   #print(f"Player has {ship_.get_points()} points")
 
 def decrease_score():

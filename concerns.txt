@@ -40,6 +40,13 @@ Different point values per enemy
 
 -Using "For Enemy in Enemies_sprites (or whatever I called it) seems to work in update.enemy()... try that?
 
+BIG ERROR RIGHT NOW: The pointvalue im trying to grab doesn't exist by the time collision happens, therefore its added incorrectly. 
+
+    Because of this the code runs increase_score() based on how many enemies currently exist in the list (the index)
+    >Like if I have 3 enemies that exist (index 0,1,2) it'll run TWICE. (if my points are +1, then it'd be [+2 points])
+
+-FIND OUT HOW TO GET [[THAT]] SPECIFIC ENEMY THATS BEING HIT BEFORE ITS KILLED. Look into your pygame.spritelists 
+
 
 PLAYER:
 Color not changing after modifying the RGB value
