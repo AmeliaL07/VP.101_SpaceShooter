@@ -202,8 +202,9 @@ def collision():
   if enemy_hit:
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
     #score increase directly/link to score increase function (stage6)
-    ship_.points+=10
-    print(f"Player has {ship_.get_points()} points")
+    update_score()
+    #print(f"Player has {ship_.get_points()} points")
+    
 
   if player_hit:
     #changing ship color on hit
@@ -216,9 +217,17 @@ def collision():
     else:
       print("Player has died (technically)")
     
-def draw_score():
+def increase_score():
+  """Increase player points based on certain condiions"""
+  ship_.points+=10
+  print(f"Player has {ship_.get_points()} points")
+  
+def update_score():
+  global scoretxt
   """Updating score txt and such"""
-  screen.blit(scoretxt,(0,0))
+  increase_score()
+  scoretxt=SCOREFONT.render(f"Current Score: {ship_.points}",True,WHITE)
+  
 
 #make gameover function -needs to check decrease_health
   #def gameover yap
@@ -246,6 +255,7 @@ clock = pygame.time.Clock()
 #text render guy
 scoretxt=SCOREFONT.render(f"Current Score: {ship_.points}",True,WHITE) #Uses Font,
 scoreRect=scoretxt.get_rect() #makes a rect for txt, allows to draw
+#screen.blit(scoretxt,scoreRect)
 
 #Game loop vari
 keep_playing=True 
@@ -260,8 +270,9 @@ while keep_playing:
 
   #screen drawing/display
   screen.fill((BLACK)) #recolors the screen 
+  screen.blit(scoretxt,scoreRect)
   draw_player()
-  draw_score()
+  
   #Game mechanic calls
   movement()
   fire_bullet()
