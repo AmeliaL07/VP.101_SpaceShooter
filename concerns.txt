@@ -37,7 +37,8 @@ Different point values per enemy
 
 -I COULD maybe overhaul the enemy class, making it a super class and making the different enemy speed types inherit from it instead.
     -This would give them all different base values, **doesn't solve my scope problem though.** Also would take a little while <_<
-UGHHH
+
+-Using "For Enemy in Enemies_sprites (or whatever I called it) seems to work in update.enemy()... try that?
 
 
 PLAYER:

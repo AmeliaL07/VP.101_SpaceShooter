@@ -170,7 +170,7 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(3,7),10) #randomspeed / points
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,7),10) #randomspeed / points
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
@@ -185,9 +185,12 @@ def update_enemy():
     #print(f"enemy {len(enemies_sprite)} updated to X:{enemy.rect.x}")
     if enemy.rect.y>=999:
       enemies_sprite.remove(enemy)
+      decrease_score()
       if ship_.points>0:
-        ship_.points-=10
-      #print(f"enemy #{len(enemies_sprite)} terminated")
+        update_scoretxt()
+      elif ship_.points<0:
+        #update_scoretxt()
+        pass  #Lead to a gameover screen eventually
   enemies_sprite.update()
   enemies_sprite.draw(screen)
 
@@ -201,11 +204,11 @@ def collision():
 
   if enemy_hit:
     print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
-    #score increase directly/link to score increase function (stage6)
-    update_score()
+    #score increase directly/link to score increase function (stage6) 
+    increase_score()
+    update_scoretxt()
     #print(f"Player has {ship_.get_points()} points")
     
-
   if player_hit:
     #changing ship color on hit
     ship_.damage_indicator()
@@ -221,11 +224,14 @@ def increase_score():
   """Increase player points based on certain condiions"""
   ship_.points+=10
   print(f"Player has {ship_.get_points()} points")
+
+def decrease_score():
+  ship_.points-=10
+  print(f"-10 points, {ship_.get_points()} ")
   
-def update_score():
+def update_scoretxt():
   global scoretxt
   """Updating score txt and such"""
-  increase_score()
   scoretxt=SCOREFONT.render(f"Current Score: {ship_.points}",True,WHITE)
   
 
@@ -276,7 +282,7 @@ while keep_playing:
   #Game mechanic calls
   movement()
   fire_bullet()
-  create_enemy()
+  create_enemy()  
   collision()
   #Updates & Framerate 
   update_bullet()
