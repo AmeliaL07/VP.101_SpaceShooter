@@ -100,6 +100,8 @@ class Enemy(pygame.sprite.Sprite):
     self.pointval=pointval
   def set_speed(self,speedE):
     self.speedE=speedE
+  def set_pointval(self,pointval):
+    self.pointval=pointval #new pointval
 
 #PLAYER FUNCTIONS
 def movement():
@@ -170,13 +172,22 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,7),10) #randomspeed / points
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,7),1) #randomspeed / point default
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
     #print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
     #print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
+
+    if enemy_.speedE==1 or enemy_.speedE==2:
+      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
+    elif enemy_.speedE>2 and enemy_.speedE<6:
+      enemy_.set_pointval(5)
+      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
+    elif enemy_.speedE==6 or enemy_.speedE==7:
+      enemy_.set_pointval(10)
+      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
 
 def update_enemy():
   for enemy in enemies_sprite:
@@ -223,11 +234,11 @@ def collision():
 def increase_score():
   """Increase player points based on certain condiions"""
   ship_.points+=10
-  print(f"Player has {ship_.get_points()} points")
+  #print(f"Player has {ship_.get_points()} points")
 
 def decrease_score():
   ship_.points-=10
-  print(f"-10 points, {ship_.get_points()} ")
+  #print(f"-10 points, {ship_.get_points()} ")
   
 def update_scoretxt():
   global scoretxt
