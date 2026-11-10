@@ -98,6 +98,10 @@ class Enemy(pygame.sprite.Sprite):
     self.speedE=speedE
   def set_pointval(self,pointval):
     self.pointval=pointval #new pointval
+  
+  #def enemy_collision(self):
+    #pass 
+    
 
 #PLAYER FUNCTIONS
 def movement():
@@ -202,8 +206,6 @@ def collision():
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
 
 
-#the single hit guyVV
-  #enemy_hit1=pygame.sprite.spritecollide(Enemy,) stick this guy as a class method? instead?? of enemy????
 
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=False,collided=pygame.sprite.collide_rect)
  #PULL what enemy SPECIFICALLY is getting getting hit to avoid iterating over EVERY enemy in the sprite list
