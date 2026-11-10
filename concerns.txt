@@ -69,3 +69,14 @@ Fix wonky positioning/sizing of enemies or bullets
 
 
 GROUP COLLIDE ISNT BOOL, BUT DICTIONARY! (ohmagod)
+
+
+THE ISSUE ISNT THE POINT ATTRIBUTES. 
+they can be accessed fine, its the iterating over the enemy objects themselves. It runs multiple
+times over for every enemy alive rather than its individual being. I *NEED* to figure out how to pull enemy_ BEFORE it gets collided with 
+and see what it really is, or pull it out of the enemies_sprites list. 
+
+>Im comparing TWO GROUPS of sprites though, I want an ISOLATED ENEMY. sprite.collide compares (1 enemy, Many bullets) and would kill the 1 enemy. 
+I need to isolate the enemy though, how do you get the enemy_? At this point the object SHOULD be made. 
+    -Use this one enemy sprite as a parameter for the function.. even if it doesn't really seem like itd make sense
+    -There are MULTIPLE enemies so this feels.. weird? but theyre all specific/unique TECHNICALLY so...? 

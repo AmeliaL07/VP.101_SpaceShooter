@@ -201,7 +201,10 @@ def collision():
   global ship_color
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
 
-  #enemy_hit=pygame.sprite.
+
+#the single hit guyVV
+  #enemy_hit1=pygame.sprite.spritecollide(Enemy,) stick this guy as a class method? instead?? of enemy????
+
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=False,collided=pygame.sprite.collide_rect)
  #PULL what enemy SPECIFICALLY is getting getting hit to avoid iterating over EVERY enemy in the sprite list
 
@@ -218,6 +221,7 @@ def collision():
 #if enemy_kill doesnt happen then it'll increment starting from indx 0, index 0 wont give 0 points 
 
 #THIS is running per enemy on screen (like we knew already) but how to fix it?
+#YOURE THE PROBLEM AND I HATE U >:[
   for enemy in enemies_sprite:
     if enemy_hit:
         print(enemy_hit) #after hit: groups{}
