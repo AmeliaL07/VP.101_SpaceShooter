@@ -200,7 +200,18 @@ def collision():
   """Check for intersection of rects (x/y) of all objects with eachother"""
   global ship_color
   #takes sprites in bullet & enemy groups, checks what to do if collided (kill or not), determines collision based on rect position
-  enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
+
+  #enemy_hit=pygame.sprite.
+  enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=False,collided=pygame.sprite.collide_rect)
+ #PULL what enemy SPECIFICALLY is getting getting hit to avoid iterating over EVERY enemy in the sprite list
+
+
+  """  
+  This compares the WHOLE enemy group to the WHOLE sprite group. I need ONE enemy compared to the bullets.
+  spritecollide() takes the name of one sprite, the name of the GROUP compared to it, then a t/f on if it should kill the sprite.
+
+  SO you would want spritecollide(enemy,bullets,true) <-- theoreticaly [Checks if enemy hits any bullets, would kill enemy]"""
+  
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
   #before hit: {}
 
@@ -210,7 +221,7 @@ def collision():
   for enemy in enemies_sprite:
     if enemy_hit:
         print(enemy_hit) #after hit: groups{}
-
+        print(enemy.pointval)
         #print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
         increase_score(enemy.pointval) 
         #ship_.points+=1

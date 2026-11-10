@@ -66,3 +66,6 @@ Right now the classes I have aren't very useful, they don't have specific attrib
 --
 SIZING:
 Fix wonky positioning/sizing of enemies or bullets
+
+
+GROUP COLLIDE ISNT BOOL, BUT DICTIONARY! (ohmagod)
