@@ -173,7 +173,7 @@ def create_enemy():
   cooldown_e()
   global cooldown_ce
   if cooldown_ce==0:
-    enemy_=Enemy(APPLECOLOR,30,30,1,1) #randomspeed / point default random.randint(1,2)
+    enemy_=Enemy(APPLECOLOR,30,30,random.randint(1,7),1) #randomspeed / point default random.randint(1,2)
     enemy_.rect.x=random.randint(120,650) #full screen x = 0-767
     enemy_.rect.y=5
     enemies_sprite.add(enemy_)
@@ -181,14 +181,14 @@ def create_enemy():
     #print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
 
-    if enemy_.speedE==1 or enemy_.speedE==2:
+    """if enemy_.speedE==1 or enemy_.speedE==2:
       print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
     elif enemy_.speedE>2 and enemy_.speedE<6:
       enemy_.set_pointval(5)
       print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
     elif enemy_.speedE==6 or enemy_.speedE==7:
       enemy_.set_pointval(10)
-      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
+      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")"""
 
 def update_enemy():
   for enemy in enemies_sprite:
@@ -196,7 +196,7 @@ def update_enemy():
     enemy.rect.x+=random.randint(-1,1)
     if enemy.rect.y>=999:
       enemies_sprite.remove(enemy)
-      #decrease_score()
+      decrease_score(5)
       if ship_.points>=0:
         update_scoretxt()
       elif ship_.points<0:
@@ -213,12 +213,11 @@ def collision():
   enemy_hit=pygame.sprite.groupcollide(bullets_sprite,enemies_sprite,dokilla=True,dokillb=True,collided=pygame.sprite.collide_rect)
   player_hit=pygame.sprite.groupcollide(ships_sprite,enemies_sprite,False,True,pygame.sprite.collide_rect)
 
-  for enemy in enemies_sprite:
-    if enemy_hit:
-      #print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
-      increase_score(enemy.pointval)
-      update_scoretxt()
-      #print(f"Player has {ship_.get_points()} points")
+  if enemy_hit:
+    #print(f"Bullet hit, enemy #{len(enemies_sprite)} terminated")
+    increase_score(10)
+    update_scoretxt()
+    #print(f"Player has {ship_.get_points()} points")
     
   if player_hit:
     #changing ship color on hit
@@ -226,18 +225,21 @@ def collision():
     ship_.image.fill(ship_color)
     #changing health
     ship_.decrease_health()
+    #losing points
+    decrease_score(5)
+    update_scoretxt()
     if ship_.health>=0:
       print(f"{ship_.health} hits remaining")
     else:
       print("Player has died (technically)")
     
-def increase_score(point_amt): #add param relating to enemy point value getting added
+def increase_score(point_amt): #point increase param
   """Increase player points based on certain condiions"""
   ship_.points+=point_amt
   #print(f"Player has {ship_.get_points()} points")
 
-def decrease_score():
-  ship_.points-=10
+def decrease_score(point_amt):
+  ship_.points-=point_amt 
   #print(f"-10 points, {ship_.get_points()} ")
   
 def update_scoretxt():
