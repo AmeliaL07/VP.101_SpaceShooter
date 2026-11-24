@@ -241,15 +241,17 @@ def update_scoretxt():
   
 
 #make gameover function -needs to check decrease_health
-def gameover(): 
-  global game_over
-  game_over=True
+def change_state():
+  """Change gamestate from ALIVE -> DEAD"""
+  screen.fill(RED)
+  print("uh?")
+
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
 #Window Name / Color
 pygame.display.set_caption("Game Window")  
-screen.fill(BLACK)
+screen.fill(BLACK) #dfault screen 
 
 #Objects lists 
 ships_sprite=pygame.sprite.Group() #ship group -rlly pointless cause theres only 1 ship.
@@ -272,8 +274,6 @@ scoreRect=scoretxt.get_rect() #makes a rect for txt, allows to draw
 
 #Game loop vari
 keep_playing=True 
-game_over=False
-
 #Game Loop - updating/redrawing
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
@@ -283,29 +283,23 @@ while keep_playing:
       event.type == pygame.QUIT
       keep_playing = False
     elif keyinpt[pygame.K_c]:
-      gameover()
+      change_state()
 
-  if game_over:
   #screen drawing/display
-    screen.fill((BLACK)) #recolors the screen 
-    screen.blit(scoretxt,scoreRect)
-    draw_player()
-    
-    #Game mechanic calls
-    movement()
-    fire_bullet()
-    create_enemy()  
-    collision()
-    #Updates & Framerate 
-    update_bullet()
-    update_enemy()
-    pygame.display.update()
-  elif game_over==True:
-    screen.fill((RED))
-    pygame.display.update()
-
-pygame.display.update()
-clock.tick(60) 
+  screen.fill((BLACK)) #recolors the screen 
+  screen.blit(scoretxt,scoreRect)
+  draw_player()
+  
+  #Game mechanic calls
+  movement()
+  fire_bullet()
+  create_enemy()  
+  collision()
+  #Updates & Framerate 
+  update_bullet()
+  update_enemy()
+  pygame.display.update()
+  clock.tick(60) 
 
 #quits the pygame module 
 pygame.quit() 
