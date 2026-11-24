@@ -16,6 +16,7 @@ screen_height=900
 #colors
 WHITE=(255,255,255)
 BLACK=(0,0,0)
+RED=(255,0,0)
 APPLECOLOR=(66,200,99)
 ship_color=(0, 221, 255) #og is 127,0,255
 #width/height
@@ -161,7 +162,7 @@ def update_bullet():
 def cooldown_e():
   """increases cooldown/resets"""
   global cooldown_ce
-  if cooldown_ce>=200: #if hit cooldown
+  if cooldown_ce>=100: #if hit cooldown
     cooldown_ce=0 #reset it
     #print("I DONT")
   elif cooldown_ce>0: 
@@ -180,15 +181,6 @@ def create_enemy():
     #print(f"enemy {len(enemies_sprite)} made at X:{enemy_.rect.x}")
     #print(f"{len(enemies_sprite)} is moving at speed: {enemy_.speedE}")
     cooldown_ce=1
-
-    """if enemy_.speedE==1 or enemy_.speedE==2:
-      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
-    elif enemy_.speedE>2 and enemy_.speedE<6:
-      enemy_.set_pointval(5)
-      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")
-    elif enemy_.speedE==6 or enemy_.speedE==7:
-      enemy_.set_pointval(10)
-      print(f"Speed:{enemy_.speedE}, pts:{enemy_.pointval}")"""
 
 def update_enemy():
   for enemy in enemies_sprite:
@@ -249,7 +241,9 @@ def update_scoretxt():
   
 
 #make gameover function -needs to check decrease_health
-  #def gameover yap
+def gameover(): 
+  global game_over
+  game_over=True
 
 #screen & dimensions 
 screen = pygame.display.set_mode((screen_width, screen_height)) 
@@ -278,6 +272,8 @@ scoreRect=scoretxt.get_rect() #makes a rect for txt, allows to draw
 
 #Game loop vari
 keep_playing=True 
+game_over=False
+
 #Game Loop - updating/redrawing
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
@@ -286,22 +282,30 @@ while keep_playing:
     if keyinpt[pygame.K_x]:
       event.type == pygame.QUIT
       keep_playing = False
+    elif keyinpt[pygame.K_c]:
+      gameover()
 
+  if game_over:
   #screen drawing/display
-  screen.fill((BLACK)) #recolors the screen 
-  screen.blit(scoretxt,scoreRect)
-  draw_player()
-  
-  #Game mechanic calls
-  movement()
-  fire_bullet()
-  create_enemy()  
-  collision()
-  #Updates & Framerate 
-  update_bullet()
-  update_enemy()
-  pygame.display.update()
-  clock.tick(60) 
+    screen.fill((BLACK)) #recolors the screen 
+    screen.blit(scoretxt,scoreRect)
+    draw_player()
+    
+    #Game mechanic calls
+    movement()
+    fire_bullet()
+    create_enemy()  
+    collision()
+    #Updates & Framerate 
+    update_bullet()
+    update_enemy()
+    pygame.display.update()
+  elif game_over==True:
+    screen.fill((RED))
+    pygame.display.update()
+
+pygame.display.update()
+clock.tick(60) 
 
 #quits the pygame module 
 pygame.quit() 
