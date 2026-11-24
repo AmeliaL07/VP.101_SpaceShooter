@@ -245,6 +245,7 @@ def change_state():
   """Change gamestate from ALIVE -> DEAD"""
   screen.fill(RED)
   print("uh?")
+  pygame.display.update()
 
 
 #screen & dimensions 
@@ -273,7 +274,11 @@ scoreRect=scoretxt.get_rect() #makes a rect for txt, allows to draw
 #screen.blit(scoretxt,scoreRect)
 
 #Game loop vari
-keep_playing=True 
+keep_playing=True #WHILE the program itself RUNS
+dead_state=False #WHILE the players dead
+menu_state=False #Start menu, WHILE the game hasnt started yet
+alive_state=False #WHILE the player is moving/playing
+
 #Game Loop - updating/redrawing
 while keep_playing: 
   #iterates over the current list of events(checks for events)  
@@ -300,6 +305,14 @@ while keep_playing:
   update_enemy()
   pygame.display.update()
   clock.tick(60) 
+
+#for later
+  while dead_state:
+    pass
+  while menu_state:
+    pass
+  while alive_state:
+    pass
 
 #quits the pygame module 
 pygame.quit() 

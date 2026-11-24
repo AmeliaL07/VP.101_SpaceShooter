@@ -70,7 +70,6 @@ Fix wonky positioning/sizing of enemies or bullets
 
 GROUP COLLIDE ISNT BOOL, BUT DICTIONARY! (ohmagod)
 
-
 THE ISSUE ISNT THE POINT ATTRIBUTES. 
 they can be accessed fine, its the iterating over the enemy objects themselves. It runs multiple
 times over for every enemy alive rather than its individual being. I *NEED* to figure out how to pull enemy_ BEFORE it gets collided with 
